@@ -20,11 +20,11 @@ var taskSchema = new Schema({
 
 var model = mongoose.model("task", taskSchema);
 
-var Survey = mongoose.model("name", new Schema(), "responses");
+var task = new model();
+task.name = "save";
 
-Survey.find({}, function(err, results){
-  console.log(results);
-});
+console.log(task.constructor.modelName);
+console.log(JSON.parse(JSON.stringify(task)));
 
 module.exports = function(collection){
   return mongoose.model(collection, taskSchema);

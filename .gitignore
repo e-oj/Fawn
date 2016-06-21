@@ -4,5 +4,4 @@
 # Dependency directories
 node_modules/
 
-models/task.js
 lib/tests.js

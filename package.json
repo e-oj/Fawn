@@ -19,10 +19,14 @@
     "scheduler"
   ],
   "author": "Emmanuel Olaojo",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
-    "bluebird": "^3.4.0",
-    "lodash": "^4.13.1",
-    "mongoose": "^4.5.0"
+    "bluebird": "3.4.1",
+    "lodash": "4.13.1",
+    "mongoose": "4.5.1"
+  },
+  "devDependencies": {
+    "chai": "3.5.0",
+    "mocha": "2.5.3"
   }
 }

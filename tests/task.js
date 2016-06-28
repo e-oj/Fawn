@@ -12,7 +12,7 @@ var config = require("../test_conf");
 var Lint = require("../lib/lint");
 var DB = "test";
 var TASKS = "LINT";
-var TEST_COLLECTION = "peoples";
+var TEST_COLLECTION = "humans";
 var lint;
 var Task;
 var testMdl;

@@ -13,7 +13,6 @@ var Lint = require("../lib/lint");
 var DB = "test";
 var TASKS = "LINT";
 var TEST_COLLECTION = "humans";
-var lint;
 var Task;
 var testMdl;
 var taskMdl;
@@ -22,12 +21,11 @@ var task;
 
 describe("Task", function(){
   before(function(){
-    lint = new Lint(config.db + DB, TASKS);
+    var lint = new Lint(config.db + DB, TASKS);
     Task = lint.Task;
     task = new Task();
     testMdl = task.getCollection(TEST_COLLECTION);
     taskMdl = task.getTaskCollection();
-
   });
 
   after(function(){

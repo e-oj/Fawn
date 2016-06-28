@@ -11,7 +11,7 @@ var taskSchema = new Schema({
     , index: {type: Number, required: true}
     , state: {type: Number, required: true}
     , name: {type: String, required: true}
-    , condition: String
+    , condition: {}
     , data: {}
   }]
 });

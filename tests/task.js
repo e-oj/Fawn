@@ -30,12 +30,8 @@ describe("Task", function(){
 
   });
 
-  after(function(done){
-    task.dropCollection(TEST_COLLECTION)
-      .then(function(){
-        done();
-      })
-      .catch(done);
+  after(function(){
+    return task.dropCollection(TEST_COLLECTION);
   });
 
   it("should save successfully", function(){

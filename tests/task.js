@@ -63,4 +63,6 @@ describe("Task", function(){
         ]);
       })
   });
+
+  it("should remove successfully");
 });

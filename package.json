@@ -4,7 +4,7 @@
   "description": "Framework for two phase commits in MongoDB",
   "main": "index.js",
   "scripts": {
-    "test": "mocha tests/task.js"
+    "test": "mocha tests"
   },
   "repository": {
     "type": "git",

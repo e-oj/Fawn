@@ -44,12 +44,14 @@ describe("Task", function(){
 
     task.save(TEST_COLLECTION, {name: "Emmanuel Olaojo", age: 20});
     task.save(TEST_COLLECTION, {name: "John Damos", age: 26});
+    task.save(TEST_COLLECTION, {name: "unimportant", age: 5000});
 
     return task.run()
       .then(function(){
         return Promise.all([
           expect(testMdl.find({name: "Emmanuel Olaojo", age: 20})).to.eventually.have.length(1)
           , expect(testMdl.find({name: "John Damos", age: 26})).to.eventually.have.length(1)
+          , expect(testMdl.find({name: "unimportant", age: 5000})).to.eventually.have.length(1)
         ])
       })
   });
@@ -65,11 +67,27 @@ describe("Task", function(){
         return Promise.all([
           expect(testMdl.find({name: "John Snow"})).to.eventually.have.length(1)
           , expect(testMdl.find({name: "OJ"})).to.eventually.have.length(1)
+          , expect(testMdl.find({name: "unimportant"})).to.eventually.have.length(1)
           , expect(testMdl.find({name: "John Damos"})).to.eventually.have.length(0)
           , expect(testMdl.find({name: "Emmanuel Olaojo"})).to.eventually.have.length(0)
         ]);
       })
   });
 
-  it("should remove successfully");
+  it("should remove successfully", function(){
+    var task =  new Task();
+
+    task.remove(TEST_COLLECTION, {age: 5000});
+    task.remove(TEST_COLLECTION, {name: "John Snow"});
+
+    return task.run()
+      .then(function(){
+        return Promise.all([
+          expect(testMdl.find({name: "John Snow"})).to.eventually.have.length(0)
+          , expect(testMdl.find({name: "unimportant"})).to.eventually.have.length(0)
+          , expect(testMdl.find({name: "OJ"})).to.eventually.have.length(1)
+          , expect(testMdl.find()).to.eventually.have.length(1)
+        ]);
+      })
+  });
 });

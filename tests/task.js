@@ -31,6 +31,13 @@ describe("Task", function(){
   after(function(){
     return task.dropCollection(TEST_COLLECTION);
   });
+  
+  it("should not run twice", function(){
+    var task = new Task();
+
+    task.run();
+    expect(task.run).to.throw(/cannot be reused/);
+  });
 
   it("should save successfully", function(){
     var task = new Task();

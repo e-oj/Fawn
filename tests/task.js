@@ -16,7 +16,6 @@ var DB = "test";
 var TASKS = "LINT";
 var TEST_COLLECTION_A = "humans";
 var TEST_COLLECTION_B = "animals";
-var Task;
 var testMdlA;
 var testMdlB;
 var taskMdl;
@@ -27,7 +26,7 @@ var task;
 describe("Task", function(){
   before(function(){
     var lint = new Lint(config.db + DB, TASKS);
-    Task = lint.Task;
+    var Task = lint.Task;
     task = new Task();
     testMdlA = task.getCollection(TEST_COLLECTION_A);
     testMdlB = task.getCollection(TEST_COLLECTION_B);
@@ -129,18 +128,31 @@ describe("Task", function(){
       task.remove(TEST_COLLECTION_A, {name: "John Snow"});
       task.remove(TEST_COLLECTION_B, {name: "Yo momma"});
 
-      return task.run()
-        .then(function(){
-          return Promise.all([
-            expect(testMdlA.find({name: "John Snow"})).to.eventually.have.length(0)
-            , expect(testMdlA.find({name: "Emmanuel Olaojo"})).to.eventually.have.length(1)
-            , expect(testMdlA.find()).to.eventually.have.length(1)
+      return task.run();
+    });
 
-            , expect(testMdlB.find({name: "Yo momma"})).to.eventually.have.length(0)
-            , expect(testMdlB.find({name: "T-REX"})).to.eventually.have.length(1)
-            , expect(testMdlA.find()).to.eventually.have.length(1)
-          ]);
-        })
+    it("should have John Snow in " + TEST_COLLECTION_A, function(){
+      return expect(testMdlA.find({name: "John Snow"})).to.eventually.have.length(0);
+    });
+
+    it("should have Emmanuel Olaojo in " + TEST_COLLECTION_A, function(){
+      return expect(testMdlA.find({name: "Emmanuel Olaojo"})).to.eventually.have.length(1);
+    });
+
+    it("should not have Yo momma in " + TEST_COLLECTION_B, function(){
+      return expect(testMdlB.find({name: "Yo momma"})).to.eventually.have.length(0);
+    });
+
+    it("should have T-REX in " + TEST_COLLECTION_B, function(){
+      return expect(testMdlB.find({name: "T-REX"})).to.eventually.have.length(1);
+    });
+
+    it(TEST_COLLECTION_A + " should have length 1", function(){
+      return expect(testMdlA.find()).to.eventually.have.length(1);
+    });
+
+    it(TEST_COLLECTION_B + " should have length 2", function(){
+      return expect(testMdlB.find()).to.eventually.have.length(1);
     });
   });
 

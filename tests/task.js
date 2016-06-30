@@ -131,7 +131,7 @@ describe("Task", function(){
       return task.run();
     });
 
-    it("should have John Snow in " + TEST_COLLECTION_A, function(){
+    it("should not have John Snow in " + TEST_COLLECTION_A, function(){
       return expect(testMdlA.find({name: "John Snow"})).to.eventually.have.length(0);
     });
 
@@ -151,12 +151,12 @@ describe("Task", function(){
       return expect(testMdlA.find()).to.eventually.have.length(1);
     });
 
-    it(TEST_COLLECTION_B + " should have length 2", function(){
+    it(TEST_COLLECTION_B + " should have length 1", function(){
       return expect(testMdlB.find()).to.eventually.have.length(1);
     });
   });
 
-  describe("#allTogetherNow", function(){
+  describe("allTogetherNow", function(){
     it("should save, update and remove successfully", function(){
       var task = new Task();
 
@@ -179,6 +179,30 @@ describe("Task", function(){
             , expect(testMdlB.find()).to.eventually.have.length(2)
           ]);
         })
+    });
+
+    it("should have John Snow in " + TEST_COLLECTION_A, function(){
+      return expect(testMdlA.find({name: "John Snow"})).to.eventually.have.length(1);
+    });
+
+    it("should have OJ in " + TEST_COLLECTION_A, function(){
+      return expect(testMdlA.find({name: "OJ"})).to.eventually.have.length(1);
+    });
+
+    it("should have Pegasus in " + TEST_COLLECTION_B, function(){
+      return expect(testMdlB.find({name: "Pegasus"})).to.eventually.have.length(1);
+    });
+
+    it("should have Brian Griffin in " + TEST_COLLECTION_B, function(){
+      return expect(testMdlB.find({name: "Brian Griffin"})).to.eventually.have.length(1);
+    });
+
+    it(TEST_COLLECTION_A + " should have length 2", function(){
+      return expect(testMdlA.find()).to.eventually.have.length(2);
+    });
+
+    it(TEST_COLLECTION_B + " should have length 2", function(){
+      return expect(testMdlB.find()).to.eventually.have.length(2);
     });
   });
 });

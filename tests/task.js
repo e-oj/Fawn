@@ -22,6 +22,7 @@ var testMdlB;
 var taskMdl;
 var task;
 
+//Multiple asserts are necessary and convenient. Or not. I do what I want
 
 describe("Task", function(){
   before(function(){
@@ -40,110 +41,134 @@ describe("Task", function(){
     ]);
   });
 
-  it("should not run twice", function(){
-    var task = new Task();
+  describe("#run", function(){
+    it("should not run twice", function(){
+      var task = new Task();
 
-    task.run();
-    expect(task.run).to.throw(/cannot be reused/);
+      task.run();
+      expect(task.run).to.throw(/cannot be reused/);
+    });
   });
 
-  it("should save successfully", function(){
-    var task = new Task();
+  describe("#save", function(){
+    it("should save successfully", function(){
+      var task = new Task();
 
-    task.save(TEST_COLLECTION_A, {name: "Emmanuel Olaojo", age: 20});
-    task.save(TEST_COLLECTION_A, {name: "John Damos", age: 26});
-    task.save(TEST_COLLECTION_A, {name: "unimportant", age: 5000});
+      task.save(TEST_COLLECTION_B, {name: "T-REX", age: 50000000});
+      task.save(TEST_COLLECTION_A, {name: "Emmanuel Olaojo", age: 20});
+      task.save(TEST_COLLECTION_A, {name: "John Damos", age: 26});
+      task.save(TEST_COLLECTION_B, {name: "Brian Griffin", age: 18});
 
-    task.save(TEST_COLLECTION_B, {name: "T-REX", age: 50000000});
-    task.save(TEST_COLLECTION_B, {name: "Scooby Doo", age: 200});
-    task.save(TEST_COLLECTION_B, {name: "Brian from family guy", age: 18});
+      return task.run();
+    });
 
-    return task.run()
-      .then(function(){
-        return Promise.all([
-          expect(testMdlA.find({name: "Emmanuel Olaojo", age: 20})).to.eventually.have.length(1)
-          , expect(testMdlA.find({name: "John Damos", age: 26})).to.eventually.have.length(1)
-          , expect(testMdlA.find({name: "unimportant", age: 5000})).to.eventually.have.length(1)
+    it("should have Emmanuel Olaojo in " + TEST_COLLECTION_A, function(){
+      return expect(testMdlA.find({name: "Emmanuel Olaojo", age: 20})).to.eventually.have.length(1);
+    });
 
-          , expect(testMdlB.find({name: "Scooby Doo", age: 200})).to.eventually.have.length(1)
-          , expect(testMdlB.find({name: "T-REX", age: 50000000})).to.eventually.have.length(1)
-          , expect(testMdlB.find({name: "Brian from family guy", age: 18})).to.eventually.have.length(1)
-        ])
-      })
+    it("should have John Damos in " + TEST_COLLECTION_A, function(){
+      return expect(testMdlA.find({name: "John Damos", age: 26})).to.eventually.have.length(1);
+    });
+
+    it("should have T-REX in " + TEST_COLLECTION_B, function(){
+      return expect(testMdlB.find({name: "T-REX", age: 50000000})).to.eventually.have.length(1);
+    });
+
+    it("should have Brian Griffin in " + TEST_COLLECTION_B, function(){
+      return expect(testMdlB.find({name: "Brian Griffin", age: 18})).to.eventually.have.length(1);
+    });
+    
+    it(TEST_COLLECTION_A + " should have length 2", function(){
+      return expect(testMdlA.find()).to.eventually.have.length(2);
+    });
+
+    it(TEST_COLLECTION_B + " should have length 2", function(){
+      return expect(testMdlB.find()).to.eventually.have.length(2);
+    });
   });
 
-  it("should update successfully", function(){
-    var task = new Task();
+  describe("#update", function(){
+    it("should update successfully", function(){
+      var task = new Task();
 
-    task.update(TEST_COLLECTION_A, {name: "John Damos"}, {name: "John Snow"});
+      task.update(TEST_COLLECTION_A, {name: "John Damos"}, {name: "John Snow"});
+      task.update(TEST_COLLECTION_B, {name: "Brian Griffin"}, {name: "Yo momma"});
 
-    task.update(TEST_COLLECTION_B, {name: "Scooby Doo"}, {name: "Yo momma"});
+      return task.run()
+        .then(function(){
+          return Promise.all([
+            expect(testMdlA.find({name: {$in: ["Emmanuel Olaojo", "John Snow"]}})).to.eventually.have.length(2)
+            , expect(testMdlA.find()).to.eventually.have.length(2)
 
-    return task.run()
-      .then(function(){
-        return Promise.all([
-          expect(testMdlA.find({name: "John Snow"})).to.eventually.have.length(1)
-          , expect(testMdlA.find({name: "unimportant"})).to.eventually.have.length(1)
-          , expect(testMdlA.find({name: "Emmanuel Olaojo"})).to.eventually.have.length(1)
-          , expect(testMdlA.find({name: "John Damos"})).to.eventually.have.length(0)
+            , expect(testMdlB.find({name: {$in: ["Yo momma", "T-REX"]}})).to.eventually.have.length(2)
+            , expect(testMdlB.find()).to.eventually.have.length(2)
+          ]);
+        })
+    });
 
-          , expect(testMdlB.find({name: "Yo momma"})).to.eventually.have.length(1)
-          , expect(testMdlB.find({name: "Brian from family guy"})).to.eventually.have.length(1)
-          , expect(testMdlB.find({name: "T-REX"})).to.eventually.have.length(1)
-          , expect(testMdlB.find({name: "Scooby Doo"})).to.eventually.have.length(0)
-        ]);
-      })
+    it("should have Emmanuel Olaojo in " + TEST_COLLECTION_A, function(){
+      return expect(testMdlA.find({name: "Emmanuel Olaojo"})).to.eventually.have.length(1);
+    });
+
+    it("should have John Snow in " + TEST_COLLECTION_A, function(){
+      return expect(testMdlA.find({name: "John Snow"})).to.eventually.have.length(1);
+    });
+
+    it("should have Yo momma in " + TEST_COLLECTION_B, function(){
+      return expect(testMdlA.find({name: "Yo momma"})).to.eventually.have.length(1);
+    });
+
+    it("should have T-REX in " + TEST_COLLECTION_B, function(){
+      return expect(testMdlA.find({name: "T-REX"})).to.eventually.have.length(1);
+    });
   });
 
-  it("should remove successfully", function(){
-    var task =  new Task();
+  describe("#remove", function(){
+    it("should remove successfully", function(){
+      var task =  new Task();
 
-    task.remove(TEST_COLLECTION_A, {name: "John Snow"});
+      task.remove(TEST_COLLECTION_A, {name: "John Snow"});
+      task.remove(TEST_COLLECTION_B, {name: "Yo momma"});
 
-    task.remove(TEST_COLLECTION_B, {name: "Brian from family guy"});
+      return task.run()
+        .then(function(){
+          return Promise.all([
+            expect(testMdlA.find({name: "John Snow"})).to.eventually.have.length(0)
+            , expect(testMdlA.find({name: "Emmanuel Olaojo"})).to.eventually.have.length(1)
+            , expect(testMdlA.find()).to.eventually.have.length(1)
 
-    return task.run()
-      .then(function(){
-        return Promise.all([
-          expect(testMdlA.find({name: "John Snow"})).to.eventually.have.length(0)
-          , expect(testMdlA.find({name: "Emmanuel Olaojo"})).to.eventually.have.length(1)
-          , expect(testMdlA.find({name: "unimportant"})).to.eventually.have.length(1)
-          , expect(testMdlA.find()).to.eventually.have.length(2)
-
-          , expect(testMdlB.find({name: "Brian from family guy"})).to.eventually.have.length(0)
-          , expect(testMdlB.find({name: "T-REX"})).to.eventually.have.length(1)
-          , expect(testMdlB.find({name: "Yo momma"})).to.eventually.have.length(1)
-          , expect(testMdlA.find()).to.eventually.have.length(2)
-        ]);
-      })
+            , expect(testMdlB.find({name: "Yo momma"})).to.eventually.have.length(0)
+            , expect(testMdlB.find({name: "T-REX"})).to.eventually.have.length(1)
+            , expect(testMdlA.find()).to.eventually.have.length(1)
+          ]);
+        })
+    });
   });
 
-  it("should save, update and remove successfully", function(){
-    var task = new Task();
+  describe("#allTogetherNow", function(){
+    it("should save, update and remove successfully", function(){
+      var task = new Task();
 
-    task.save(TEST_COLLECTION_A, {name: "John Snow", age: 26});
-    task.update(TEST_COLLECTION_B, {name: "T-REX"}, {name: "Pegasus"});
-    task.update(TEST_COLLECTION_A, {name: "Emmanuel Olaojo"}, {name: "OJ"});
-    task.remove(TEST_COLLECTION_A, {name: "unimportant"});
-    task.save(TEST_COLLECTION_B, {name: "Brian from family guy", age: 18});
-    task.remove(TEST_COLLECTION_B, {name: "Yo momma"});
+      task.save(TEST_COLLECTION_A, {name: "John Snow", age: 26});
+      task.update(TEST_COLLECTION_B, {name: "T-REX"}, {name: "Pegasus"});
+      task.update(TEST_COLLECTION_A, {name: "Emmanuel Olaojo"}, {name: "OJ"});
+      task.save(TEST_COLLECTION_A, {name: "unimportant", age: 50});
+      task.remove(TEST_COLLECTION_A, {name: "unimportant"});
+      task.save(TEST_COLLECTION_B, {name: "Brian Griffin", age: 18});
+      task.save(TEST_COLLECTION_B, {name: "Yo momma", age: 18});
+      task.remove(TEST_COLLECTION_B, {name: "Yo momma"});
 
-    return task.run()
-      .then(function(){
-        return Promise.all([
-          expect(testMdlA.find({name: "John Snow"})).to.eventually.have.length(1)
-          , expect(testMdlA.find({name: "OJ"})).to.eventually.have.length(1)
-          , expect(testMdlA.find({name: "unimportant"})).to.eventually.have.length(0)
-          , expect(testMdlA.find({name: "Emmanuel Olaojo"})).to.eventually.have.length(0)
-          , expect(testMdlA.find()).to.eventually.have.length(2)
+      return task.run()
+        .then(function(){
+          return Promise.all([
+            expect(testMdlA.find({name: {$in: ["OJ", "John Snow"]}})).to.eventually.have.length(2)
+            , expect(testMdlA.find()).to.eventually.have.length(2)
 
-          , expect(testMdlB.find({name: "Pegasus"})).to.eventually.have.length(1)
-          , expect(testMdlB.find({name: "Brian from family guy"})).to.eventually.have.length(1)
-          , expect(testMdlB.find({name: "T-REX"})).to.eventually.have.length(0)
-          , expect(testMdlB.find({name: "Yo momma"})).to.eventually.have.length(0)
-          , expect(testMdlB.find()).to.eventually.have.length(2)
-        ]);
-      })
+            , expect(testMdlB.find({name: {$in: ["Pegasus", "Brian Griffin"]}})).to.eventually.have.length(2)
+            , expect(testMdlB.find()).to.eventually.have.length(2)
+          ]);
+        })
+    });
   });
 });
 

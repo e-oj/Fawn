@@ -20,13 +20,12 @@ var testMdlA;
 var testMdlB;
 var taskMdl;
 var task;
-
-//Multiple asserts are necessary and convenient. Or not. I do what I want
+var Task;
 
 describe("Task", function(){
   before(function(){
     var lint = new Lint(config.db + DB, TASKS);
-    var Task = lint.Task;
+    Task = lint.Task;
     task = new Task();
     testMdlA = task.getCollection(TEST_COLLECTION_A);
     testMdlB = task.getCollection(TEST_COLLECTION_B);
@@ -169,16 +168,7 @@ describe("Task", function(){
       task.save(TEST_COLLECTION_B, {name: "Yo momma", age: 18});
       task.remove(TEST_COLLECTION_B, {name: "Yo momma"});
 
-      return task.run()
-        .then(function(){
-          return Promise.all([
-            expect(testMdlA.find({name: {$in: ["OJ", "John Snow"]}})).to.eventually.have.length(2)
-            , expect(testMdlA.find()).to.eventually.have.length(2)
-
-            , expect(testMdlB.find({name: {$in: ["Pegasus", "Brian Griffin"]}})).to.eventually.have.length(2)
-            , expect(testMdlB.find()).to.eventually.have.length(2)
-          ]);
-        })
+      return task.run();
     });
 
     it("should have John Snow in " + TEST_COLLECTION_A, function(){

@@ -40,18 +40,11 @@ describe("Task", function(){
   });
 
   describe("#run", function(){
-    it("should not run twice", function(){
-      var task = new Task();
-
-      task.run();
-      expect(task.run).to.throw(/cannot be reused/);
-    });
+    // Might come up with tests later
   });
 
   describe("#save", function(){
     it("should save successfully", function(){
-      var task = new Task();
-
       task.save(TEST_COLLECTION_B, {name: "T-REX", age: 50000000});
       task.save(TEST_COLLECTION_A, {name: "Emmanuel Olaojo", age: 20});
       task.save(TEST_COLLECTION_A, {name: "John Damos", age: 26});
@@ -87,8 +80,6 @@ describe("Task", function(){
 
   describe("#update", function(){
     it("should update successfully", function(){
-      var task = new Task();
-
       task.update(TEST_COLLECTION_A, {name: "John Damos"}, {name: "John Snow"});
       task.update(TEST_COLLECTION_B, {name: "Brian Griffin"}, {name: "Yo momma"});
 
@@ -122,8 +113,6 @@ describe("Task", function(){
 
   describe("#remove", function(){
     it("should remove successfully", function(){
-      var task =  new Task();
-
       task.remove(TEST_COLLECTION_A, {name: "John Snow"});
       task.remove(TEST_COLLECTION_B, {name: "Yo momma"});
 
@@ -157,8 +146,6 @@ describe("Task", function(){
 
   describe("allTogetherNow", function(){
     it("should save, update and remove successfully", function(){
-      var task = new Task();
-
       task.save(TEST_COLLECTION_A, {name: "John Snow", age: 26});
       task.update(TEST_COLLECTION_B, {name: "T-REX"}, {name: "Pegasus"});
       task.update(TEST_COLLECTION_A, {name: "Emmanuel Olaojo"}, {name: "OJ"});

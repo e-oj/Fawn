@@ -1,18 +1,18 @@
 "use strict";
 
 module.exports = describe("Task", function(){
-  // describe("#initModel", function(){
-  //   it("validate data", function(){
-  //     task.initModel(TEST_COLLECTION_A, {
-  //       name: {type: String, required: true}
-  //       , age: {type: Number, required: true}
-  //     });
-  //
-  //     task.save(TEST_COLLECTION_A, {name: "John"});
-  //
-  //     return expect(task.run).to.eventually.throw(Error);
-  //   });
-  // });
+  describe("#initModel", function(){
+    it.skip("validate data", function(){
+      task.initModel(TEST_COLLECTION_A, {
+        name: {type: String, required: true}
+        , age: {type: Number, required: true}
+      });
+
+      task.save(TEST_COLLECTION_A, {name: "John"});
+
+      return expect(task.run).to.eventually.throw(Error);
+    });
+  });
 
   describe("#save", function(){
     it("should save successfully", function(){

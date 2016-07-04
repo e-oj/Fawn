@@ -1,47 +1,18 @@
 "use strict";
 
-/**
- * @author EmmanuelOlaojo
- * @since 6/22/16
- */
-
-var chai = require("chai");
-var expect = chai.expect;
-var Promise = require("bluebird");
-chai.use(require("chai-as-promised"));
-
-var config = require("../test_conf");
-var Lint = require("../lib/lint");
-var DB = "test";
-var TASKS = "LINT";
-var TEST_COLLECTION_A = "humans";
-var TEST_COLLECTION_B = "animals";
-var testMdlA;
-var testMdlB;
-var taskMdl;
-var task;
-var Task;
-
-describe("Task", function(){
-  before(function(){
-    var lint = new Lint(config.db + DB, TASKS);
-    Task = lint.Task;
-    task = new Task();
-    testMdlA = task.getCollection(TEST_COLLECTION_A);
-    testMdlB = task.getCollection(TEST_COLLECTION_B);
-    taskMdl = task.getTaskCollection();
-  });
-
-  after(function(){
-    return Promise.all([
-      task.dropCollection(TEST_COLLECTION_A)
-      , task.dropCollection(TEST_COLLECTION_B)
-    ]);
-  });
-
-  describe("#run", function(){
-    // Might come up with tests later
-  });
+module.exports = describe("Task", function(){
+  // describe("#initModel", function(){
+  //   it("validate data", function(){
+  //     task.initModel(TEST_COLLECTION_A, {
+  //       name: {type: String, required: true}
+  //       , age: {type: Number, required: true}
+  //     });
+  //
+  //     task.save(TEST_COLLECTION_A, {name: "John"});
+  //
+  //     return expect(task.run).to.eventually.throw(Error);
+  //   });
+  // });
 
   describe("#save", function(){
     it("should save successfully", function(){
@@ -68,7 +39,7 @@ describe("Task", function(){
     it("should have Brian Griffin in " + TEST_COLLECTION_B, function(){
       return expect(testMdlB.find({name: "Brian Griffin", age: 18})).to.eventually.have.length(1);
     });
-    
+
     it(TEST_COLLECTION_A + " should have length 2", function(){
       return expect(testMdlA.find()).to.eventually.have.length(2);
     });
@@ -183,4 +154,3 @@ describe("Task", function(){
     });
   });
 });
-

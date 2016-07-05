@@ -13,8 +13,7 @@ var config = {
 
 config.init =  function(){
   config.chai.use(require("chai-as-promised"));
+  config.expect = config.chai.expect;
 };
-
-config.expect = config.chai.expect;
 
 module.exports = config;

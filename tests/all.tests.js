@@ -30,7 +30,7 @@ describe("ALL TESTS", function(){
   after(function(){
     return Promise.all([
       task.dropCollection(TEST_COLLECTION_A)
-      , task.dropCollection(TEST_COLLECTION_B)
+      // , task.dropCollection(TEST_COLLECTION_B)
     ]);
   });
 

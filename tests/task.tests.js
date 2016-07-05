@@ -2,15 +2,18 @@
 
 module.exports = describe("Task", function(){
   describe("#initModel", function(){
-    it.skip("validate data", function(){
-      task.initModel(TEST_COLLECTION_A, {
-        name: {type: String, required: true}
-        , age: {type: Number, required: true}
+    it("should validate data", function(){
+      var task = new Task();
+      var model = "cars";
+
+      task.initModel(model, {
+        make: {type: String, required: true}
+        , year: {type: Number, required: true}
       });
 
-      task.save(TEST_COLLECTION_A, {name: "John"});
+      task.save(model, {name: "John"});
 
-      return expect(task.run).to.eventually.throw(Error);
+      return expect(task.run()).to.eventually.be.rejectedWith(/validation failed/);
     });
   });
 

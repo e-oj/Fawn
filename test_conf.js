@@ -3,7 +3,7 @@
 var config = {
   db: "mongodb://127.0.0.1:27017/"
   , DB: "test"
-  , TASKS: "LINT"
+  , TASKS: "lints"
   , Lint: require("./lib/lint")
   , Promise: require("bluebird")
   , TEST_COLLECTION_A: "humans"

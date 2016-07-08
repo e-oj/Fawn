@@ -14,6 +14,7 @@ var taskSchema = new Schema({
     , condition: {}
     , oldData: [{}]
     , data: {}
+    , options: {}
   }]
 });
 

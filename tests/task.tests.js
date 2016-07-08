@@ -120,16 +120,15 @@ module.exports = describe("Task", function(){
 
   describe("allTogetherNow", function(){
     it("should save, update and remove successfully", function(){
-      task.save(TEST_COLLECTION_A, {name: "John Snow", age: 26});
-      task.update(TEST_COLLECTION_B, {name: "T-REX"}, {name: "Pegasus"});
-      task.update(TEST_COLLECTION_A, {name: "Emmanuel Olaojo"}, {name: "OJ"});
-      task.save(TEST_COLLECTION_A, {name: "unimportant", age: 50});
-      task.remove(TEST_COLLECTION_A, {name: "unimportant"});
-      task.save(TEST_COLLECTION_B, {name: "Brian Griffin", age: 18});
-      task.save(TEST_COLLECTION_B, {name: "Yo momma", age: 18});
-      task.remove(TEST_COLLECTION_B, {name: "Yo momma"});
-
-      return task.run();
+      return task.save(TEST_COLLECTION_A, {name: "John Snow", age: 26})
+        .update(TEST_COLLECTION_B, {name: "T-REX"}, {name: "Pegasus"})
+        .update(TEST_COLLECTION_A, {name: "Emmanuel Olaojo"}, {name: "OJ"})
+        .save(TEST_COLLECTION_A, {name: "unimportant", age: 50})
+        .remove(TEST_COLLECTION_A, {name: "unimportant"})
+        .save(TEST_COLLECTION_B, {name: "Brian Griffin", age: 18})
+        .save(TEST_COLLECTION_B, {name: "Yo momma", age: 18})
+        .remove(TEST_COLLECTION_B, {name: "Yo momma"})
+        .run();
     });
 
     it("should have John Snow in " + TEST_COLLECTION_A, function(){

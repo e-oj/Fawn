@@ -6,6 +6,7 @@
  */
 
 var config = require("../test_conf");
+var utils = require("../lib/utils");
 config.init();
 
 var Lint = config.Lint;
@@ -22,16 +23,16 @@ describe("ALL TESTS", function(){
     var lint = new Lint(config.db + DB, TASKS);
     global.Task = lint.Task;
     global.task = new Task();
-    global.testMdlA = task.getCollection(TEST_COLLECTION_A);
-    global.testMdlB = task.getCollection(TEST_COLLECTION_B);
     global.taskMdl = task.getTaskCollection();
+    global.testMdlA = utils.getModel(TEST_COLLECTION_A);
+    global.testMdlB = utils.getModel(TEST_COLLECTION_B);
   });
 
   after(function(){
     return Promise.all([
-      task.dropCollection(TEST_COLLECTION_A)
-      , task.dropCollection(TEST_COLLECTION_B)
-      , task.dropCollection(TASKS)
+      utils.dropCollection(TEST_COLLECTION_A)
+      , utils.dropCollection(TEST_COLLECTION_B)
+      , utils.dropCollection(TASKS)
     ]);
   });
 

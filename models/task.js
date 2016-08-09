@@ -12,7 +12,7 @@ var taskSchema = new Schema({
     , state: {type: Number, required: true}
     , name: {type: String, required: true}
     , condition: {}
-    , oldData: [{}]
+    , dataStore: [{}]
     , data: {}
     , options: {}
   }]

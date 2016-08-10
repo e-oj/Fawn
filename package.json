@@ -24,7 +24,6 @@
     "bluebird": "3.4.1",
     "chai-as-promised": "5.3.0",
     "getmac": "1.2.1",
-    "lodash": "4.13.1",
     "mongoose": "4.5.1"
   },
   "devDependencies": {

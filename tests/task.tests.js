@@ -1,7 +1,7 @@
 "use strict";
 
 module.exports = describe("Task", function(){
-    after(require("./cleanup"));
+  after(require("./cleanup"));
 
   describe("#initModel", function(){
     it("should validate data", function(){

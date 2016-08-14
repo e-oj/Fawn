@@ -1,7 +1,7 @@
 {
   "name": "oj-lint",
   "version": "1.0.0",
-  "description": "Library for two phase commits in MongoDB",
+  "description": "Library for atomic-ish operations in MongoDB",
   "main": "index.js",
   "scripts": {
     "test": "mocha tests/all.tests.js"
@@ -16,7 +16,8 @@
     "multi",
     "phase",
     "commit",
-    "scheduler"
+    "atomic",
+    "mongoose"
   ],
   "author": "Emmanuel Olaojo",
   "license": "MIT",

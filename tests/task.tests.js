@@ -1,7 +1,8 @@
 "use strict";
 
 module.exports = describe("Task", function(){
-  var self = this;
+    after(require("./cleanup"));
+
   describe("#initModel", function(){
     it("should validate data", function(){
       var task = new Task();
@@ -32,27 +33,27 @@ module.exports = describe("Task", function(){
     });
 
     it("should have Emmanuel Olaojo in " + TEST_COLLECTION_A, function(){
-      return expect(TestMdlA.find({name: "Emmanuel Olaojo", age: 20})).to.eventually.have.length(1);
+      return expect(TestMdlA.find({name: "Emmanuel Olaojo", age: 20}).exec()).to.eventually.have.length(1);
     });
 
     it("should have John Damos in " + TEST_COLLECTION_A, function(){
-      return expect(TestMdlA.find({name: "John Damos", age: 26})).to.eventually.have.length(1);
+      return expect(TestMdlA.find({name: "John Damos", age: 26}).exec()).to.eventually.have.length(1);
     });
 
     it("should have T-REX in " + TEST_COLLECTION_B, function(){
-      return expect(TestMdlB.find({name: "T-REX", age: 50000000})).to.eventually.have.length(1);
+      return expect(TestMdlB.find({name: "T-REX", age: 50000000}).exec()).to.eventually.have.length(1);
     });
 
     it("should have Brian Griffin in " + TEST_COLLECTION_B, function(){
-      return expect(TestMdlB.find({name: "Brian Griffin", age: 18})).to.eventually.have.length(1);
+      return expect(TestMdlB.find({name: "Brian Griffin", age: 18}).exec()).to.eventually.have.length(1);
     });
 
     it(TEST_COLLECTION_A + " should have length 2", function(){
-      return expect(TestMdlA.find()).to.eventually.have.length(2);
+      return expect(TestMdlA.find().exec()).to.eventually.have.length(2);
     });
 
     it(TEST_COLLECTION_B + " should have length 2", function(){
-      return expect(TestMdlB.find()).to.eventually.have.length(2);
+      return expect(TestMdlB.find().exec()).to.eventually.have.length(2);
     });
   });
 
@@ -62,34 +63,34 @@ module.exports = describe("Task", function(){
         .exec()
         .then(function(brian){
           task.update(TEST_COLLECTION_A, {name: "John Damos"}, {name: "John Snow"});
-          task.update(brian, {name: "Yo momma"});
+          task.update(brian, {name: "Yo momma", $inc: {age: 20}});
 
-          return task.run();
+          return task.run()
         });
     });
 
     it("should have Emmanuel Olaojo in " + TEST_COLLECTION_A, function(){
-      return expect(TestMdlA.find({name: "Emmanuel Olaojo"})).to.eventually.have.length(1);
+      return expect(TestMdlA.find({name: "Emmanuel Olaojo"}).exec()).to.eventually.have.length(1);
     });
 
     it("should have John Snow in " + TEST_COLLECTION_A, function(){
-      return expect(TestMdlA.find({name: "John Snow"})).to.eventually.have.length(1);
+      return expect(TestMdlA.find({name: "John Snow"}).exec()).to.eventually.have.length(1);
     });
 
-    it("should have Yo momma in " + TEST_COLLECTION_B, function(){
-      return expect(TestMdlB.find({name: "Yo momma"})).to.eventually.have.length(1);
+    it("should have Yo momma in " + TEST_COLLECTION_B + " with age 38", function(){
+      return expect(TestMdlB.find({name: "Yo momma", age: 38}).exec()).to.eventually.have.length(1);
     });
 
     it("should have T-REX in " + TEST_COLLECTION_B, function(){
-      return expect(TestMdlB.find({name: "T-REX"})).to.eventually.have.length(1);
+      return expect(TestMdlB.find({name: "T-REX"}).exec()).to.eventually.have.length(1);
     });
 
     it(TEST_COLLECTION_A + " should have length 2", function(){
-      return expect(TestMdlA.find()).to.eventually.have.length(2);
+      return expect(TestMdlA.find().exec()).to.eventually.have.length(2);
     });
 
     it(TEST_COLLECTION_B + " should have length 2", function(){
-      return expect(TestMdlB.find()).to.eventually.have.length(2);
+      return expect(TestMdlB.find().exec()).to.eventually.have.length(2);
     });
   });
 
@@ -106,27 +107,27 @@ module.exports = describe("Task", function(){
     });
 
     it("should not have John Snow in " + TEST_COLLECTION_A, function(){
-      return expect(TestMdlA.find({name: "John Snow"})).to.eventually.have.length(0);
+      return expect(TestMdlA.find({name: "John Snow"}).exec()).to.eventually.have.length(0);
     });
 
     it("should have Emmanuel Olaojo in " + TEST_COLLECTION_A, function(){
-      return expect(TestMdlA.find({name: "Emmanuel Olaojo"})).to.eventually.have.length(1);
+      return expect(TestMdlA.find({name: "Emmanuel Olaojo"}).exec()).to.eventually.have.length(1);
     });
 
     it("should not have Yo momma in " + TEST_COLLECTION_B, function(){
-      return expect(TestMdlB.find({name: "Yo momma"})).to.eventually.have.length(0);
+      return expect(TestMdlB.find({name: "Yo momma"}).exec()).to.eventually.have.length(0);
     });
 
     it("should have T-REX in " + TEST_COLLECTION_B, function(){
-      return expect(TestMdlB.find({name: "T-REX"})).to.eventually.have.length(1);
+      return expect(TestMdlB.find({name: "T-REX"}).exec()).to.eventually.have.length(1);
     });
 
     it(TEST_COLLECTION_A + " should have length 1", function(){
-      return expect(TestMdlA.find()).to.eventually.have.length(1);
+      return expect(TestMdlA.find().exec()).to.eventually.have.length(1);
     });
 
     it(TEST_COLLECTION_B + " should have length 1", function(){
-      return expect(TestMdlB.find()).to.eventually.have.length(1);
+      return expect(TestMdlB.find().exec()).to.eventually.have.length(1);
     });
   });
 
@@ -146,27 +147,27 @@ module.exports = describe("Task", function(){
     });
 
     it("should have John Snow in " + TEST_COLLECTION_A, function(){
-      return expect(TestMdlA.find({name: "John Snow"})).to.eventually.have.length(1);
+      return expect(TestMdlA.find({name: "John Snow"}).exec()).to.eventually.have.length(1);
     });
 
     it("should have OJ in " + TEST_COLLECTION_A, function(){
-      return expect(TestMdlA.find({name: "OJ"})).to.eventually.have.length(1);
+      return expect(TestMdlA.find({name: "OJ"}).exec()).to.eventually.have.length(1);
     });
 
     it("should have Pegasus in " + TEST_COLLECTION_B, function(){
-      return expect(TestMdlB.find({name: "Pegasus"})).to.eventually.have.length(1);
+      return expect(TestMdlB.find({name: "Pegasus"}).exec()).to.eventually.have.length(1);
     });
 
     it("should have Brian Griffin in " + TEST_COLLECTION_B, function(){
-      return expect(TestMdlB.find({name: "Brian Griffin"})).to.eventually.have.length(1);
+      return expect(TestMdlB.find({name: "Brian Griffin"}).exec()).to.eventually.have.length(1);
     });
 
     it(TEST_COLLECTION_A + " should have length 2", function(){
-      return expect(TestMdlA.find()).to.eventually.have.length(2);
+      return expect(TestMdlA.find().exec()).to.eventually.have.length(2);
     });
 
     it(TEST_COLLECTION_B + " should have length 2", function(){
-      return expect(TestMdlB.find()).to.eventually.have.length(2);
+      return expect(TestMdlB.find().exec()).to.eventually.have.length(2);
     });
   });
 });

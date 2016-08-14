@@ -6,13 +6,13 @@
  */
 
 var config = require("../test_conf");
-var utils = require("../lib/utils");
 config.init();
 
 var Lint = config.Lint;
 var DB = config.DB;
 var TASKS = config.TASKS;
 
+global.utils = require("../lib/utils");
 global.expect = config.expect;
 global.Promise = config.Promise;
 global.TEST_COLLECTION_A = config.TEST_COLLECTION_A;
@@ -29,14 +29,11 @@ describe("ALL TESTS", function(){
   });
 
   after(function(){
-    return Promise.all([
-      utils.dropCollection(TEST_COLLECTION_A)
-      , utils.dropCollection(TEST_COLLECTION_B)
-      , utils.dropCollection(TASKS)
-    ]);
+    return utils.dropCollection(TASKS);
   });
 
   require("./task.tests");
+  require("./roller.tests");
 });
 
 

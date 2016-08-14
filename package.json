@@ -1,14 +1,14 @@
 {
   "name": "oj-lint",
   "version": "1.0.0",
-  "description": "Framework for two phase commits in MongoDB",
+  "description": "Library for two phase commits in MongoDB",
   "main": "index.js",
   "scripts": {
     "test": "mocha tests/all.tests.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/oj-boss/Lint.git"
+    "url": "https://github.com/e-oj/Lint"
   },
   "keywords": [
     "mongoDB",

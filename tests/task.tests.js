@@ -5,7 +5,7 @@ module.exports = describe("Task", function(){
 
   describe("#initModel", function(){
     it("should validate data", function(){
-      var task = new Task();
+      var task = Task();
       var model = "cars";
 
       task.initModel(model, {

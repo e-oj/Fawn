@@ -1,6 +1,6 @@
 {
   "name": "oj-lint",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Library for atomic-ish operations in MongoDB",
   "main": "index.js",
   "scripts": {

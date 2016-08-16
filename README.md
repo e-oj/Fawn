@@ -17,11 +17,11 @@ Then:
 var Lint = require("oj-lint");
 ```
 <br><b>Lint.init(db, _collection, options): Initialize Lint</b>
-> <b>db (required): [mongoose](https://github.com/Automattic/mongoose) instance or [connection string](https://docs.mongodb.com/manual/reference/connection-string/)</b>
+> db (required): [mongoose](https://github.com/Automattic/mongoose) instance or [connection string](https://docs.mongodb.com/manual/reference/connection-string/)
 
-> <b>_collection (optional): name of collection to be used internally by Lint</b>
+> _collection (optional): name of collection to be used internally by Lint
 
-> <b>options (optional. lol): Connection options. Same as [mongoose connection options](http://mongoosejs.com/docs/connections.html#options)</b>
+> options (optional. lol): Connection options. Same as [mongoose connection options](http://mongoosejs.com/docs/connections.html#options)
 
 If you're using mongoose in your project:
 

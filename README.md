@@ -16,7 +16,8 @@ Then:
 ```javascript
 var Lint = require("oj-lint");
 ```
-<br><b>Lint.init(db, _collection, options): Initialize Lint</b>
+<br>
+### Lint.init(db, _collection, options): Initialize Lint
 > db (required): [mongoose](https://github.com/Automattic/mongoose) instance or [connection string](https://docs.mongodb.com/manual/reference/connection-string/)
 
 > _collection (optional): name of collection to be used internally by Lint

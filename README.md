@@ -1,4 +1,3 @@
 # Lint
-Library for multi phase commits in MongoDB with mongoose
+<b>Library for multi phase commits in MongoDB with mongoose</b>
 
-> For all or nothing transactions in MongoDB across multiple collections in the same DB.

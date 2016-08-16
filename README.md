@@ -86,10 +86,10 @@ var task = Lint.Task();
   
   ```javascript
   var Cars = mongoose.model("cars", new Schema({make: String, year: Number}));
-  var toyota = new Cars({make: "Toyota", year: 2016});
-  
-  task.save("cars", {make: "Toyota", year: 2016})
-  task.save(Cars, {make: "Toyota", year: 2016})
+  var toyota = new Cars({make: "Toyota", year: 2015});
+
+  task.save("cars", {make: "Toyota", year: 2015})
+  task.save(Cars, {make: "Toyota", year: 2015})
   task.save("cars", toyota)
   task.save(Cars, toyota)
   task.save(toyota)
@@ -97,4 +97,29 @@ var task = Lint.Task();
   
   *Note: No changes will be made to to your database until you call task.run()*
   
+<br> 
+[mongoose update]: <http://mongoosejs.com/docs/api.html#model_Model.update> 
+[mongodb]: <https://docs.mongodb.com/manual/core/document/#document-query-filter>
+### task.update(model, condition, data): To update a document
+  > model (required): Name of the collection we're saving to or a mongoose model or a mongoose document
+
+  > condition (required): same as in [mongoose update][] and [mongodb][]
   
+  > data (optional): data to update with same as in [mongoose update][] and [mongodb](https://docs.mongodb.com/manual/reference/method/db.collection.update/#update-parameter)
+  
+  <br> These are all valid
+ 
+  ```javascript
+  var Cars = mongoose.model("cars", new Schema({make: String, year: Number}));
+ 
+  // update the value of year on all cars with make === "Toyota" to 2016
+  task.update("cars", {make: "Toyota"}, {year: 2016});
+  task.update(Cars, {make: "Toyota"}, {year: 2016});
+  
+  Cars.findOne({make: "Toyota"}, function(toyota){
+    //update just this toyota
+    task.update(toyota, {year: 2016});
+  });
+ ```
+ 
+  *Note: No changes will be made to to your database until you call task.run()*

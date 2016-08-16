@@ -57,12 +57,12 @@ After intitializing Lint, create a task like so:
 var task = Lint.Task();
 ```
 
-  + <b>task.save(model, doc): To save</b>
+  + <b>task.save(model, doc): To save a document</b>
   > model (required): Name of the collection we're saving to or a mongoose model or a mongoose document
 
   > doc (optional): object to save or a mongoose document
 	
-	these are all valid:
+  <br>these are all valid:
   
   ```javascript
   var Cars = mongoose.model("cars", new Schema({make: String, year: Number}));

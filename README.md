@@ -16,7 +16,7 @@ Then:
 ```javascript
 var Lint = require("oj-lint");
 ```
-<br>
+
 ### Lint.init(db, _collection, options): Initialize Lint
 > db (required): [mongoose](https://github.com/Automattic/mongoose) instance or [connection string](https://docs.mongodb.com/manual/reference/connection-string/)
 
@@ -50,7 +50,7 @@ var collection = "lint_collection_name_if_you_want_to_specify";
 Lint.init("mongodb://127.0.0.1:27017/testDB", collection || null, options || null);
 ```
 
-<br><b>Lint.Task(): Create a Lint task</b>
+### Lint.Task(): Create a Lint task
 
 After intitializing Lint, create a task like so:
 
@@ -58,7 +58,7 @@ After intitializing Lint, create a task like so:
 var task = Lint.Task();
 ```
 
-  + <b>task.save(model, doc): To save a document</b>
+### task.save(model, doc): To save a document</b>
   > model (required): Name of the collection we're saving to or a mongoose model or a mongoose document
 
   > doc (optional): object to save or a mongoose document

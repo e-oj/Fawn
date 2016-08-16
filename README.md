@@ -16,13 +16,20 @@ Then:
 ```javascript
 var Lint = require("oj-lint");
 ```
- 
-<b>Lint.init(db, _collection, options): Initialize Lint</b>
-
+<br><b>Lint.init(db, _collection, options): Initialize Lint</b>
 > <b>db (required): [mongoose](https://github.com/Automattic/mongoose) instance or [connection string](https://docs.mongodb.com/manual/reference/connection-string/)</b>
 
 > <b>_collection (optional): name of collection to be used internally by Lint</b>
 
 > <b>options (optional. lol): Connection options. Same as [mongoose connection options](http://mongoosejs.com/docs/connections.html#options)</b>
 
-The init function is used to Initialize lint. If you're using mongoose in your project, 
+If you're using mongoose in your project:
+
+```javascript
+var mongoose = require("mongoose");
+
+mongoose.connect("mongodb://127.0.0.1:27017/testDB");
+
+Lint.init(mongoose, "lint_collection_name_if_you_want_to_specify");
+```
+

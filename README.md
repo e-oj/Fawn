@@ -49,7 +49,7 @@ var collection = "lint_collection_name_if_you_want_to_specify";
 //remember, _collection and options are optional
 Lint.init("mongodb://127.0.0.1:27017/testDB", collection || null, options || null);
 ```
-
+<br>
 ### Lint.Task(): Create a Lint task
 
 After intitializing Lint, create a task like so:
@@ -57,7 +57,26 @@ After intitializing Lint, create a task like so:
 ```javascript
 var task = Lint.Task();
 ```
+<br>
+### task.initModel(modelName, schema): To initialize a model with a Schema.
+  > modelName (required): Name of the collection associated with this model
+  
+  > schema (required): An object to define the model structure. Same as object passed to [mongoose Schema](http://mongoosejs.com/docs/guide.html#definition). Also see [validation](http://mongoosejs.com/docs/validation.html)
+  
+  <br>If you're using mongoose, define your models with mongoose wherever possible. If the model has been defined by mongoose before this function is called, mongoose will throw an OverwriteModelError and if it was defined by Lint, Lint will throw an Error. Models can be defined only once.
+  
+  ```javascript
+  var schema = {
+    name: {type: String, required: true}
+    , specials: [{title: String, year: Number}]
+  }
+  
+  task.initModel("comedians", schema);
+  ```
+  
+  Save operations to the "comedians" model will validate against the schema;
 
+<br>
 ### task.save(model, doc): To save a document</b>
   > model (required): Name of the collection we're saving to or a mongoose model or a mongoose document
 
@@ -75,3 +94,7 @@ var task = Lint.Task();
   task.save(Cars, toyota)
   task.save(toyota)
   ```
+  
+  *Note: No changes will be made to to your database until you call task.run()*
+  
+  

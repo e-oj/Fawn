@@ -23,13 +23,29 @@ var Lint = require("oj-lint");
 
 > options (optional. lol): Connection options. Same as [mongoose connection options](http://mongoosejs.com/docs/connections.html#options)
 
-If you're using mongoose in your project:
+<br>If you're using mongoose in your project initialize Lint with mongoose:
 
 ```javascript
 var mongoose = require("mongoose");
 
 mongoose.connect("mongodb://127.0.0.1:27017/testDB");
 
+//remember, _collection is optional
 Lint.init(mongoose, "lint_collection_name_if_you_want_to_specify");
+```
+
+Without mongoose, Initialze Lint like so:
+
+```javascript
+//options object (http://mongoosejs.com/docs/connections.html#options)
+var options = {
+  user: "teh_huose_kat"
+  pass: "teh_Kitti_passwrod"
+}
+
+var _collection = "lint_collection_name_if_you_want_to_specify";
+
+//remember, _collection and options are optional
+Lint.init("mongodb://127.0.0.1:27017/testDB", collection || null, options || null);
 ```
 

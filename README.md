@@ -125,7 +125,7 @@ var task = Lint.Task();
   *Note: No changes will be made to to your database until you call task.run()*
   
   <br>
-  ### task.remove(model, condition);
+### task.remove(model, condition);
   > model (required): Name of the collection we're deleting from or a mongoose model or a mongoose document
   
   > condition (optional): same as in [mongoose](http://mongoosejs.com/docs/api.html#query_Query-remove)

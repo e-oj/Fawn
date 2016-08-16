@@ -40,7 +40,7 @@ Without mongoose, Initialze Lint like so:
 ```javascript
 // options object (http://mongoosejs.com/docs/connections.html#options)
 var options = {
-  user: "teh_huose_kat"
+  user: "teh_huose_kat",
   pass: "teh_Kitti_passwrod"
 }
 

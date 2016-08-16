@@ -1,3 +1,3 @@
 # Lint
-<b>Library for multi phase commits in MongoDB with mongoose</b>
+<b>Library for atomic-ish operations in MongoDB</b>
 

@@ -31,14 +31,14 @@ var mongoose = require("mongoose");
 
 mongoose.connect("mongodb://127.0.0.1:27017/testDB");
 
-//remember, _collection is optional
+// remember, _collection is optional
 Lint.init(mongoose, "lint_collection_name_if_you_want_to_specify");
 ```
 
 Without mongoose, Initialze Lint like so:
 
 ```javascript
-//options object (http://mongoosejs.com/docs/connections.html#options)
+// options object (http://mongoosejs.com/docs/connections.html#options)
 var options = {
   user: "teh_huose_kat"
   pass: "teh_Kitti_passwrod"
@@ -46,7 +46,7 @@ var options = {
 
 var collection = "lint_collection_name_if_you_want_to_specify";
 
-//remember, _collection and options are optional
+// remember, _collection and options are optional
 Lint.init("mongodb://127.0.0.1:27017/testDB", collection || null, options || null);
 ```
 <br>
@@ -88,11 +88,11 @@ var task = Lint.Task();
   var Cars = mongoose.model("cars", new Schema({make: String, year: Number}));
   var toyota = new Cars({make: "Toyota", year: 2015});
 
-  task.save("cars", {make: "Toyota", year: 2015})
-  task.save(Cars, {make: "Toyota", year: 2015})
-  task.save("cars", toyota)
-  task.save(Cars, toyota)
-  task.save(toyota)
+  task.save("cars", {make: "Toyota", year: 2015});
+  task.save(Cars, {make: "Toyota", year: 2015});
+  task.save("cars", toyota);
+  task.save(Cars, toyota);
+  task.save(toyota);
   ```
   
   *Note: No changes will be made to to your database until you call task.run()*
@@ -101,7 +101,7 @@ var task = Lint.Task();
 [mongoose update]: <http://mongoosejs.com/docs/api.html#model_Model.update> 
 [mongodb]: <https://docs.mongodb.com/manual/core/document/#document-query-filter>
 ### task.update(model, condition, data): To update a document
-  > model (required): Name of the collection we're saving to or a mongoose model or a mongoose document
+  > model (required): Name of the collection we're updating or a mongoose model or a mongoose document
 
   > condition (required): same as in [mongoose update][] and [mongodb][]
   
@@ -117,9 +117,30 @@ var task = Lint.Task();
   task.update(Cars, {make: "Toyota"}, {year: 2016});
   
   Cars.findOne({make: "Toyota"}, function(toyota){
-    //update just this toyota
+    // update just this toyota
     task.update(toyota, {year: 2016});
   });
  ```
  
   *Note: No changes will be made to to your database until you call task.run()*
+  
+  <br>
+  ### task.remove(model, condition);
+  > model (required): Name of the collection we're deleting from or a mongoose model or a mongoose document
+  
+  > condition (optional): same as in [mongoose](http://mongoosejs.com/docs/api.html#query_Query-remove)
+  
+  <br> These are all valid
+  
+  ```javascript
+  var Cars = mongoose.model("cars", new Schema({make: String, year: Number}));
+  
+  // removes all cars with year === 2015
+  task.remove("cars", {year: 2015});
+  task.remove(Cars, {year: 2015});
+  
+  Cars.findOne({year: 2015}, function(car){
+    // remove just this car
+    task.remove(car);
+  })
+  ```

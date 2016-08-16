@@ -59,6 +59,7 @@ var task = Lint.Task();
 
   + <b>task.save(model, doc): To save</b>
   > model (required): Name of the collection we're saving to or a mongoose model or a mongoose document
+
   > doc (optional): object to save or a mongoose document
 	
 	these are all valid:

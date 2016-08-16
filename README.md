@@ -66,11 +66,11 @@ var task = Lint.Task();
   
   ```javascript
   var Cars = mongoose.model("cars", new Schema({make: String, year: Number}));
-  var car = new Cars({make: "Toyota", year: 2016});
+  var toyota = new Cars({make: "Toyota", year: 2016});
   
   task.save("cars", {make: "Toyota", year: 2016})
   task.save(Cars, {make: "Toyota", year: 2016})
-  task.save("cars", car)
-  task.save(Cars, car)
-  task.save(car)
+  task.save("cars", toyota)
+  task.save(Cars, toyota)
+  task.save(toyota)
   ```

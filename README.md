@@ -1,7 +1,7 @@
 # Lint
 ## Library for atomic-ish operations in MongoDB
 
-Lint allows you to carry out edits on your database as a series of steps. If an error occurs on one of the steps, the database is returned to it's initial state (it's state before the transaction started). 
+Lint provides the ability to carry out edits on a mongoDB database as a series of steps. If an error occurs on any of the steps, the database is returned to it's initial state (it's state before the transaction started). This README is not yet complete.
 
 ## Getting Started:
 
@@ -14,8 +14,44 @@ Then:
 
 ## Usage:
 ```javascript
-var Lint = require("oj-lint");
+var Lint = require("oj-lint"); //not yet final. package name may change
 ```
+
+### Examples
+Say you have two bank accounts, one belongs to John Smith and the other belongs to Broke Ass. You would like to transfer $20 from John Smith to Broke Ass. Assuming all first name and last name pairs are unique, this might look like:
+
+```javascript
+// assuming Lint has been initialized. See Lint.init below
+var task = Lint.Task()
+
+//assuming "Accounts" is the Accounts collection
+task.update("Accounts", {firstName: "John", lastName: "Smith"}, {$inc: {balance: -20}})
+  .update("Accounts", {firstName: "Broke", lastName: "Ass"}, {$inc: {balance: 20}})
+  .run()
+  .then(function(){
+    //update is complete
+  })
+  .catch(function(err){
+    // Everything has been rolled back.
+    
+    //log the error which caused the failure
+    console.log(err);
+  })
+```
+
+The server could crash before a task is complete, You can use the Roller to rollback all incomplete transactions before starting your server.
+
+```javascript
+// assuming Lint has been initialized. See Lint.init below
+var roller = Lint.Roller();
+
+roller.roll()
+  .then(function(){
+    // start server
+  });
+```
+
+## API
 
 ### Lint.init(db, _collection, options): Initialize Lint
 > db (required): [mongoose](https://github.com/Automattic/mongoose) instance or [connection string](https://docs.mongodb.com/manual/reference/connection-string/)
@@ -40,7 +76,7 @@ Without mongoose, Initialze Lint like so:
 ```javascript
 // options object (http://mongoosejs.com/docs/connections.html#options)
 var options = {
-  user: "teh_huose_kat"
+  user: "teh_huose_kat",
   pass: "teh_Kitti_passwrod"
 }
 

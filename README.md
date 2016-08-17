@@ -88,6 +88,8 @@ Lint.init("mongodb://127.0.0.1:27017/testDB", collection || null, options || nul
 <br>
 ### Lint.Task(): Create a Lint task
 
+When you create a task, you can use it to queue up a series of operations that will get executed when the task's run function is called. Tasks provide the ability to save, update or delete from a database.
+
 After intitializing Lint, create a task like so:
 
 ```javascript
@@ -161,7 +163,7 @@ var task = Lint.Task();
   *Note: No changes will be made to to your database until you call task.run()*
   
   <br>
-### task.remove(model, condition);
+### task.remove(model, condition): Remove a document or documents from the database
   > model (required): Name of the collection we're deleting from or a mongoose model or a mongoose document
   
   > condition (optional): same as in [mongoose](http://mongoosejs.com/docs/api.html#query_Query-remove)
@@ -180,3 +182,8 @@ var task = Lint.Task();
     task.remove(car);
   })
   ```
+  
+  *Note: No changes will be made to to your database until you call task.run()*
+  
+  <br>
+### task.options(options): Attach options to an update.

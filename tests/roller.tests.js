@@ -8,13 +8,13 @@ module.exports = describe("Roller", function(){
 
   describe("#roll", function(){
     it("should throw original error on failure", function(){
-      var _task = task.save(TestMdlA, {name: "BoJack Horseman", age: 34})
+      task.save(TestMdlA, {name: "BoJack Horseman", age: 34})
         .save(TestMdlB, {name: "Puss in Boots", age: 26})
         .update(TestMdlA, {name: "BoJack Horseman"}, {name: "Samurai Jack", age: 300})
         .update(TEST_COLLECTION_B, {name: "Puss in Boots"}, {name: "Aristocat", age: 6})
         .update(TEST_COLLECTION_A, {_id: "blah"}, {name: "fail"});
 
-      return expect(_task.run()).to.eventually.be.rejectedWith(/Cast to ObjectId failed/);
+      return expect(task.run()).to.eventually.be.rejectedWith(/Cast to ObjectId failed/);
     });
 
     it("should rollback save", function(){

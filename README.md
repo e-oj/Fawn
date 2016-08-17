@@ -1,5 +1,5 @@
 # Lint
-## Library for atomic-ish operations in MongoDB
+## Promise based library for atomic-ish operations in MongoDB
 
 Lint provides the ability to carry out edits on a mongoDB database as a series of steps. If an error occurs on any of the steps, the database is returned to it's initial state (it's state before the transaction started). This README is not yet complete.
 

@@ -1,1 +1,1 @@
-module.exports = require("./lib/lint");
+module.exports = require("./lib/fawn");

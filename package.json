@@ -1,6 +1,6 @@
 {
-  "name": "oj-lint",
-  "version": "0.0.3",
+  "name": "fawn",
+  "version": "0.0.0",
   "description": "Library for atomic-ish operations in MongoDB",
   "main": "index.js",
   "scripts": {

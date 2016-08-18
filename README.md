@@ -1,7 +1,7 @@
-# Lint
+# Fawn
 ## Library for atomic-ish operations in MongoDB
 
-Lint provides the ability to carry out edits on a mongoDB database as a series of steps. If an error occurs on any of the steps, the database is returned to it's initial state (it's state before the transaction started). This README is not yet complete.
+Fawn provides the ability to carry out edits on a mongoDB database as a series of steps. If an error occurs on any of the steps, the database is returned to it's initial state (it's state before the transaction started). This README is not yet complete.
 
 ## Getting Started:
 
@@ -10,19 +10,18 @@ Install [node.js](https://nodejs.org) and [mongoDB](https://www.mongodb.com/down
 Start mongoDB in a terminal: ```mongod```
 
 Then:
-```npm install oj-lint```
+```npm install fawn```
 
 ## Usage:
 ```javascript
-var Lint = require("oj-lint"); //not yet final. package name may change
+var Fawn = require("fawn"); //not yet final. package name may change
 ```
 
 ### Examples
 Say you have two bank accounts, one belongs to John Smith and the other belongs to Broke Ass. You would like to transfer $20 from John Smith to Broke Ass. Assuming all first name and last name pairs are unique, this might look like:
 
 ```javascript
-// assuming Lint has been initialized. See Lint.init below
-var task = Lint.Task()
+var task = Fawn.Task()
 
 //assuming "Accounts" is the Accounts collection
 task.update("Accounts", {firstName: "John", lastName: "Smith"}, {$inc: {balance: -20}})
@@ -42,8 +41,8 @@ task.update("Accounts", {firstName: "John", lastName: "Smith"}, {$inc: {balance:
 The server could crash before a task is complete, You can use the Roller to rollback all incomplete transactions before starting your server.
 
 ```javascript
-// assuming Lint has been initialized. See Lint.init below
-var roller = Lint.Roller();
+// assuming Fawn has been initialized. See Fawn.init below
+var roller = Fawn.Roller();
 
 roller.roll()
   .then(function(){
@@ -53,14 +52,14 @@ roller.roll()
 
 ## API
 
-### Lint.init(db, _collection, options): Initialize Lint
+### Fawn.init(db, _collection, options): Initialize Fawn
 > db (required): [mongoose](https://github.com/Automattic/mongoose) instance or [connection string](https://docs.mongodb.com/manual/reference/connection-string/)
 
-> _collection (optional): name of collection to be used internally by Lint
+> _collection (optional): name of collection to be used internally by Fawn
 
 > options (optional. lol): Connection options. Same as [mongoose connection options](http://mongoosejs.com/docs/connections.html#options)
 
-<br>If you're using mongoose in your project initialize Lint with mongoose:
+<br>If you're using mongoose in your project initialize Fawn with mongoose:
 
 ```javascript
 var mongoose = require("mongoose");
@@ -68,10 +67,10 @@ var mongoose = require("mongoose");
 mongoose.connect("mongodb://127.0.0.1:27017/testDB");
 
 // remember, _collection is optional
-Lint.init(mongoose, "lint_collection_name_if_you_want_to_specify");
+Fawn.init(mongoose, "Fawn_collection_name_if_you_want_to_specify");
 ```
 
-Without mongoose, Initialze Lint like so:
+Without mongoose, Initialze Fawn like so:
 
 ```javascript
 // options object (http://mongoosejs.com/docs/connections.html#options)
@@ -80,18 +79,18 @@ var options = {
   pass: "teh_Kitti_passwrod"
 }
 
-var collection = "lint_collection_name_if_you_want_to_specify";
+var collection = "Fawn_collection_name_if_you_want_to_specify";
 
 // remember, _collection and options are optional
-Lint.init("mongodb://127.0.0.1:27017/testDB", collection || null, options || null);
+Fawn.init("mongodb://127.0.0.1:27017/testDB", collection || null, options || null);
 ```
 <br>
-### Lint.Task(): Create a Lint task
+### Fawn.Task(): Create a Fawn task
 
-After intitializing Lint, create a task like so:
+After intitializing Fawn, create a task like so:
 
 ```javascript
-var task = Lint.Task();
+var task = Fawn.Task();
 ```
 <br>
 ### task.initModel(modelName, schema): To initialize a model with a Schema.
@@ -99,7 +98,7 @@ var task = Lint.Task();
   
   > schema (required): Same as object passed to [mongoose Schema](http://mongoosejs.com/docs/guide.html#definition). Also see [validation](http://mongoosejs.com/docs/validation.html)
   
-  <br>If you're using mongoose, define your models with mongoose wherever possible. If the model has been defined by mongoose before this function is called, mongoose will throw an OverwriteModelError and if it was defined by Lint, Lint will throw an Error. Models can be defined only once.
+  <br>If you're using mongoose, define your models with mongoose wherever possible. If the model has been defined by mongoose before this function is called, mongoose will throw an OverwriteModelError and if it was defined by Fawn, Fawn will throw an Error. Models can be defined only once.
   
   ```javascript
   var schema = {

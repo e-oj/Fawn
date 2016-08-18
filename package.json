@@ -1,6 +1,6 @@
 {
   "name": "fawn",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Library for atomic-ish operations in MongoDB",
   "main": "index.js",
   "scripts": {
@@ -11,13 +11,22 @@
     "url": "https://github.com/e-oj/Lint"
   },
   "keywords": [
+    "mongoose",
     "mongoDB",
-    "two",
+    "mongoose transaction",
+    "mongoose transact",
+    "mongoose atomic",
+    "atomic mongoose",
+    "mongodb transaction",
+    "mongodb transact",
+    "mongodb atomic",
+    "atomic mongodb",
+    "multi phase commit",
+    "two phase commit",
     "multi",
     "phase",
     "commit",
     "atomic",
-    "mongoose",
     "fawn",
     "transaction"
   ],

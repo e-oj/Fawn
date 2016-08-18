@@ -17,7 +17,9 @@
     "phase",
     "commit",
     "atomic",
-    "mongoose"
+    "mongoose",
+    "fawn",
+    "transaction"
   ],
   "author": "Emmanuel Olaojo",
   "license": "MIT",

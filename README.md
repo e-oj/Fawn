@@ -14,7 +14,7 @@ Then:
 
 ## Usage:
 ```javascript
-var Fawn = require("fawn"); //not yet final. package name may change
+var Fawn = require("fawn");
 ```
 
 ### Examples

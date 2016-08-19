@@ -35,7 +35,24 @@ task.update("Accounts", {firstName: "John", lastName: "Smith"}, {$inc: {balance:
     
     //log the error which caused the failure
     console.log(err);
+  });
+```
+
+if you prefer not to chain function calls, you don't have to:
+
+```javascript
+task.update("Accounts", {firstName: "Broke", lastName: "Ass"}, {$inc: {balance: -20}})
+task.update("Accounts", {firstName: "Coke", lastName: "Dealer"}, {$inc: {balance: 20}})
+task.run()
+  .then(function(){
+    //update is complete
   })
+  .catch(function(err){
+    // Everything has been rolled back.
+    
+    //log the error which caused the failure
+    console.log(err);
+  });
 ```
 
 The server could crash before a task is complete, You can use the Roller to rollback all incomplete transactions before starting your server.
@@ -50,16 +67,20 @@ roller.roll()
   });
 ```
 
-## API
+## API <a name="api"></a>
 
-### Fawn.init(db, _collection, options): Initialize Fawn
+- [Fawn.init](#fawn_init)
+
+### Fawn.init(db, _collection, options) <a name="fawn_init"></a>: Initialize Fawn
 > db (required): [mongoose](https://github.com/Automattic/mongoose) instance or [connection string](https://docs.mongodb.com/manual/reference/connection-string/)
 
-> _collection (optional): name of collection to be used internally by Fawn
+> _collection (optional): Name of collection used internally by Fawn to store transactions
 
 > options (optional. lol): Connection options. Same as [mongoose connection options](http://mongoosejs.com/docs/connections.html#options)
 
-<br>If you're using mongoose in your project initialize Fawn with mongoose:
+<br> **Note: if you're running multiple apps connected to the same db, provide a string value for _collection that's unique to each app. Do this to avoid a situation where one app rolls back the unfinished transaction(s) of another app.**
+
+If you're using mongoose in your project initialize Fawn with mongoose:
 
 ```javascript
 var mongoose = require("mongoose");
@@ -86,6 +107,8 @@ Fawn.init("mongodb://127.0.0.1:27017/testDB", collection || null, options || nul
 ```
 <br>
 ### Fawn.Task(): Create a Fawn task
+  
+  > returns: A new task
 
 After intitializing Fawn, create a task like so:
 
@@ -93,7 +116,8 @@ After intitializing Fawn, create a task like so:
 var task = Fawn.Task();
 ```
 <br>
-### task.initModel(modelName, schema): To initialize a model with a Schema.
+### task.initModel(modelName, schema) <a name="task_initmodel"></a>: To initialize a model with a Schema.
+
   > modelName (required): Name of the collection associated with this model
   
   > schema (required): Same as object passed to [mongoose Schema](http://mongoosejs.com/docs/guide.html#definition). Also see [validation](http://mongoosejs.com/docs/validation.html)
@@ -112,10 +136,11 @@ var task = Fawn.Task();
   Save operations to the "comedians" model will validate against the schema;
 
 <br>
-### task.save(model, doc): To save a document</b>
+### task.save(model, doc) <a name="task_save"></a>: To save a document</b>
+
   > model (required): Name of the collection we're saving to or a mongoose model or a mongoose document
 
-  > doc (optional): object to save or a mongoose document
+  > doc (optional): Object to save or a mongoose document
 	
   <br>these are all valid:
   
@@ -135,24 +160,23 @@ var task = Fawn.Task();
 <br> 
 [mongoose update]: <http://mongoosejs.com/docs/api.html#model_Model.update> 
 [mongodb]: <https://docs.mongodb.com/manual/core/document/#document-query-filter>
-### task.update(model, condition, data): To update a document
+### task.update(model, condition, data) <a name="task_update"></a>: To update a document
+
   > model (required): Name of the collection we're updating or a mongoose model or a mongoose document
 
-  > condition (required): same as in [mongoose update][] and [mongodb][]
+  > condition (required): Same as in [mongoose update][] and [mongodb][]
   
-  > data (optional): data to update with same as in [mongoose update][] and [mongodb](https://docs.mongodb.com/manual/reference/method/db.collection.update/#update-parameter)
+  > data (optional): Data to update with same as in [mongoose update][] and [mongodb](https://docs.mongodb.com/manual/reference/method/db.collection.update/#update-parameter)
   
   <br> These are all valid
  
   ```javascript
   var Cars = mongoose.model("cars", new Schema({make: String, year: Number}));
  
-  // update the value of year on all cars with make === "Toyota" to 2016
   task.update("cars", {make: "Toyota"}, {year: 2016});
   task.update(Cars, {make: "Toyota"}, {year: 2016});
   
   Cars.findOne({make: "Toyota"}, function(toyota){
-    // update just this toyota
     task.update(toyota, {year: 2016});
   });
  ```
@@ -160,10 +184,30 @@ var task = Fawn.Task();
   *Note: No changes will be made to to your database until you call task.run()*
   
   <br>
-### task.remove(model, condition);
+### task.options(options) <a name="task_options"></a>: Add options to an update task.
+
+  > options (required): Update options - same as in [mongoose update][]
+  
+  <br> Attach to update call as shown
+  
+  ```javascript
+  task.update("cars", {make: "Toyota"}, {year: 2016})
+    .options({multi: true});
+  
+  // Also valid
+  
+  task.update("cars", {make: "Ford"}, {year: 2016});
+  task.options({multi: true});
+  ```
+  
+  *Note: No changes will be made to to your database until you call task.run()*
+
+  <br>
+### task.remove(model, condition) <a name="task_remove"></a>: Remove document(s) from a collection
+
   > model (required): Name of the collection we're deleting from or a mongoose model or a mongoose document
   
-  > condition (optional): same as in [mongoose](http://mongoosejs.com/docs/api.html#query_Query-remove)
+  > condition (optional): Same as in [mongoose](http://mongoosejs.com/docs/api.html#query_Query-remove)
   
   <br> These are all valid
   
@@ -179,3 +223,51 @@ var task = Fawn.Task();
     task.remove(car);
   })
   ```
+
+  *Note: No changes will be made to to your database until you call task.run()*
+
+  <br> 
+### task.run() <a name="task_run"></a>: Run a task.
+  
+  > returns: Promise
+
+  For the database changes to occur, you must call task.run(). This function returns a promise. If an error occurs, the promise is rejected with the error that caused the failure.
+  
+  ```javascript
+  task.update("Accounts", {firstName: "John", lastName: "Smith"}, {$inc: {balance: -20}})
+    .update("Accounts", {firstName: "Broke", lastName: "Ass"}, {$inc: {balance: 20}})
+    .run()
+    .then(function(){
+      //update is complete
+    })
+    .catch(function(err){
+      // Everything has been rolled back.
+      
+      //log the error which caused the failure
+      console.log(err);
+    });
+  ```
+  <br>
+### Fawn.Roller() <a name="Fawn_Roller"></a>: Get the Roller object.
+  
+  > returns: The Roller object
+  
+  After initializing  Fawn, get the Roller like so:
+  
+  ```javascript
+  var Roller = Fawn.Roller();
+  ```
+ <br>
+### Roller.roll() <a name="roller_roll"></a>: Roll back all incomplete transcations
+  
+  Returns all the documents affected by incomplete transactions to their original state. Should only be used when no tasks are in progress, usually on server startup.
+  
+  ```javascript
+  var roller = Fawn.Roller();
+  
+  roller.roll()
+    .then(function(){
+      // start server
+    });
+  ```
+  

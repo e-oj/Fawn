@@ -7,7 +7,7 @@ Fawn provides the ability to carry out edits on a mongoDB database as a series o
 - [Usage](#usage)
 - [API](#api)
 
-## Getting Started<a name="getting_started"></a>:
+## <a name="getting_started"></a>Getting Started:
 
 Install [node.js](https://nodejs.org) and [mongoDB](https://www.mongodb.com/download-center)
 
@@ -16,13 +16,13 @@ Start mongoDB in a terminal: ```mongod```
 Then:
 ```npm install fawn```
 
-## Usage<a name="usage"></a>:
+## <a name="usage"></a>Usage:
 
 ```javascript
 var Fawn = require("fawn");
 ```
 
-### Examples<a name="examples"></a>
+### <a name="examples"></a>Examples
 Say you have two bank accounts, one belongs to John Smith and the other belongs to Broke Ass. You would like to transfer $20 from John Smith to Broke Ass. Assuming all first name and last name pairs are unique, this might look like:
 
 ```javascript
@@ -72,7 +72,7 @@ roller.roll()
   });
 ```
 
-## API<a name="api"></a>
+## <a name="api"></a>API
 
 - [Fawn.init](#fawn_init)
 - [Fawn.Task](#fawn_task)
@@ -85,7 +85,7 @@ roller.roll()
 - [Fawn.Roller](#fawn_roller)
 - [Roller.roll](#roller_roll)
 
-### Fawn.init(db, _collection, options)<a name="fawn_init"></a>: Initialize Fawn
+### <a name="fawn_init"></a>Fawn.init(db, _collection, options): Initialize Fawn
 > db (required): [mongoose](https://github.com/Automattic/mongoose) instance or [connection string](https://docs.mongodb.com/manual/reference/connection-string/)
 
 > _collection (optional): Name of collection used internally by Fawn to store transactions
@@ -120,7 +120,7 @@ var collection = "Fawn_collection_name_if_you_want_to_specify";
 Fawn.init("mongodb://127.0.0.1:27017/testDB", collection || null, options || null);
 ```
 <br>
-### Fawn.Task()<a name="fawn_task"></a>: Create a Fawn task
+### <a name="fawn_task"></a>Fawn.Task(): Create a Fawn task
   
   > returns: A new task
 
@@ -130,7 +130,7 @@ After intitializing Fawn, create a task like so:
 var task = Fawn.Task();
 ```
 <br>
-### task.initModel(modelName, schema)<a name="task_initmodel"></a>: To initialize a model with a Schema.
+### <a name="task_initmodel"></a>task.initModel(modelName, schema): To initialize a model with a Schema.
 
   > modelName (required): Name of the collection associated with this model
   
@@ -150,7 +150,7 @@ var task = Fawn.Task();
   Save operations to the "comedians" model will validate against the schema;
 
 <br>
-### task.save(model, doc)<a name="task_save"></a>: To save a document</b>
+### <a name="task_save"></a>task.save(model, doc): To save a document</b>
 
   > model (required): Name of the collection we're saving to or a mongoose model or a mongoose document
 
@@ -174,7 +174,7 @@ var task = Fawn.Task();
 <br> 
 [mongoose update]: <http://mongoosejs.com/docs/api.html#model_Model.update> 
 [mongodb]: <https://docs.mongodb.com/manual/core/document/#document-query-filter>
-### task.update(model, condition, data)<a name="task_update"></a>: To update a document
+### <a name="task_update"></a>task.update(model, condition, data): To update a document
 
   > model (required): Name of the collection we're updating or a mongoose model or a mongoose document
 
@@ -198,7 +198,7 @@ var task = Fawn.Task();
   *Note: No changes will be made to to your database until you call task.run()*
   
   <br>
-### task.options(options)<a name="task_options"></a>: Add options to an update task.
+### <a name="task_options"></a>task.options(options): Add options to an update task.
 
   > options (required): Update options - same as in [mongoose update][]
   
@@ -217,7 +217,7 @@ var task = Fawn.Task();
   *Note: No changes will be made to to your database until you call task.run()*
 
   <br>
-### task.remove(model, condition)<a name="task_remove"></a>: Remove document(s) from a collection
+### <a name="task_remove"></a>task.remove(model, condition): Remove document(s) from a collection
 
   > model (required): Name of the collection we're deleting from or a mongoose model or a mongoose document
   
@@ -241,7 +241,7 @@ var task = Fawn.Task();
   *Note: No changes will be made to to your database until you call task.run()*
 
   <br> 
-### task.run()<a name="task_run"></a>: Run a task.
+### <a name="task_run"></a>task.run(): Run a task.
   
   > returns: Promise
 
@@ -262,7 +262,7 @@ var task = Fawn.Task();
     });
   ```
   <br>
-### Fawn.Roller()<a name="fawn_roller"></a>: Get the Roller object.
+### <a name="fawn_roller"></a>Fawn.Roller(): Get the Roller object.
   
   > returns: The Roller object
   
@@ -272,7 +272,7 @@ var task = Fawn.Task();
   var Roller = Fawn.Roller();
   ```
  <br>
-### Roller.roll()<a name="roller_roll"></a>: Roll back all incomplete transcations
+### <a name="roller_roll"></a>Roller.roll(): Roll back all incomplete transcations
   
   Returns all the documents affected by incomplete transactions to their original state. Should only be used when no tasks are in progress, usually on server startup.
   

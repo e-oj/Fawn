@@ -1,6 +1,6 @@
 {
   "name": "fawn",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Library for atomic-ish operations in MongoDB",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/e-oj/Lint"
+    "url": "https://github.com/e-oj/Fawn"
   },
   "keywords": [
     "mongoose",
@@ -27,7 +27,6 @@
     "phase",
     "commit",
     "atomic",
-    "fawn",
     "transaction"
   ],
   "author": "Emmanuel Olaojo",

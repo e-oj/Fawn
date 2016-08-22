@@ -8,6 +8,7 @@ Fawn provides the ability to carry out edits on a mongoDB database as a series o
 - [Getting Started](#getting_started)
 - [Usage](#usage)
 - [API](#api)
+- [Test](#test)
 
 ## <a name="getting_started"></a>Getting Started:
 
@@ -287,3 +288,16 @@ var task = Fawn.Task();
     });
   ```
   
+## <a name="test"></a>Test
+
+  To test this module, start mongodb in a terminal
+  
+  ```
+  mongod
+  ```
+  
+  Then cd to the project directory and run 
+  
+  ```
+  npm test
+  ```

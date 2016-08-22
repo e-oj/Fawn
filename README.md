@@ -176,7 +176,9 @@ var task = Fawn.Task();
   
 <br> 
 [mongoose update]: <http://mongoosejs.com/docs/api.html#model_Model.update> 
+
 [mongodb]: <https://docs.mongodb.com/manual/core/document/#document-query-filter>
+
 ### <a name="task_update"></a>task.update(model, condition, data): To update a document
 
   > model (required): Name of the collection we're updating or a mongoose model or a mongoose document

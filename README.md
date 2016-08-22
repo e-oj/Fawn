@@ -89,6 +89,7 @@ roller.roll()
 - [Roller.roll](#roller_roll)
 
 ### <a name="fawn_init"></a>Fawn.init(db, _collection, options): Initialize Fawn
+
 > db (required): [mongoose](https://github.com/Automattic/mongoose) instance or [connection string](https://docs.mongodb.com/manual/reference/connection-string/)
 
 > _collection (optional): Name of collection used internally by Fawn to store transactions
@@ -123,6 +124,7 @@ var collection = "Fawn_collection_name_if_you_want_to_specify";
 Fawn.init("mongodb://127.0.0.1:27017/testDB", collection || null, options || null);
 ```
 <br>
+
 ### <a name="fawn_task"></a>Fawn.Task(): Create a Fawn task
   
   > returns: A new task
@@ -133,6 +135,7 @@ After intitializing Fawn, create a task like so:
 var task = Fawn.Task();
 ```
 <br>
+
 ### <a name="task_initmodel"></a>task.initModel(modelName, schema): To initialize a model with a Schema.
 
   > modelName (required): Name of the collection associated with this model
@@ -153,6 +156,7 @@ var task = Fawn.Task();
   Save operations to the "comedians" model will validate against the schema;
 
 <br>
+
 ### <a name="task_save"></a>task.save(model, doc): To save a document</b>
 
   > model (required): Name of the collection we're saving to or a mongoose model or a mongoose document
@@ -204,6 +208,7 @@ var task = Fawn.Task();
   *Note: No changes will be made to to your database until you call task.run()*
   
   <br>
+  
 ### <a name="task_options"></a>task.options(options): Add options to an update task.
 
   > options (required): Update options - same as in [mongoose][]
@@ -223,6 +228,7 @@ var task = Fawn.Task();
   *Note: No changes will be made to to your database until you call task.run()*
 
   <br>
+  
 ### <a name="task_remove"></a>task.remove(model, condition): Remove document(s) from a collection
 
   > model (required): Name of the collection we're deleting from or a mongoose model or a mongoose document
@@ -247,6 +253,7 @@ var task = Fawn.Task();
   *Note: No changes will be made to to your database until you call task.run()*
 
   <br> 
+  
 ### <a name="task_run"></a>task.run(): Run a task.
   
   > returns: Promise
@@ -268,6 +275,7 @@ var task = Fawn.Task();
     });
   ```
   <br>
+  
 ### <a name="fawn_roller"></a>Fawn.Roller(): Get the Roller object.
   
   > returns: The Roller object
@@ -278,6 +286,7 @@ var task = Fawn.Task();
   var Roller = Fawn.Roller();
   ```
  <br>
+ 
 ### <a name="roller_roll"></a>Roller.roll(): Roll back all incomplete transcations
   
   Returns all the documents affected by incomplete transactions to their original state. Should only be used when no tasks are in progress, usually on server startup.

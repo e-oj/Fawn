@@ -3,7 +3,7 @@
 
 Fawn provides the ability to carry out edits on a mongoDB database as a series of steps. If an error occurs on any of the steps, the database is returned to it's initial state (it's state before the transaction started).
 
-**View on [GitHub](https://github.com/e-oj/Fawn/blob/master/README.md) If you're having trouble reading this on npm**
+**View on [GitHub](https://github.com/e-oj/Fawn/)**
 
 - [Getting Started](#getting_started)
 - [Usage](#usage)

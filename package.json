@@ -1,6 +1,6 @@
 {
   "name": "fawn",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Library for atomic-ish operations in MongoDB",
   "main": "index.js",
   "scripts": {

@@ -175,7 +175,7 @@ var task = Fawn.Task();
   *Note: No changes will be made to to your database until you call task.run()*
   
 <br> 
-[mongoose update]: <http://mongoosejs.com/docs/api.html#model_Model.update> 
+[mongoose]: <http://mongoosejs.com/docs/api.html#model_Model.update> 
 
 [mongodb]: <https://docs.mongodb.com/manual/core/document/#document-query-filter>
 
@@ -183,9 +183,9 @@ var task = Fawn.Task();
 
   > model (required): Name of the collection we're updating or a mongoose model or a mongoose document
 
-  > condition (required): Same as in [mongoose update][] and [mongodb][]
+  > condition (required): Same as in [mongoose][] and [mongodb][]
   
-  > data (optional): Data to update with same as in [mongoose update][] and [mongodb](https://docs.mongodb.com/manual/reference/method/db.collection.update/#update-parameter)
+  > data (optional): Data to update with same as in [mongoose][] and [mongodb](https://docs.mongodb.com/manual/reference/method/db.collection.update/#update-parameter)
   
   <br> These are all valid
  
@@ -205,7 +205,7 @@ var task = Fawn.Task();
   <br>
 ### <a name="task_options"></a>task.options(options): Add options to an update task.
 
-  > options (required): Update options - same as in [mongoose update][]
+  > options (required): Update options - same as in [mongoose][]
   
   <br> Attach to update call as shown
   

@@ -140,7 +140,7 @@ var task = Fawn.Task();
 
   > modelName (required): Name of the collection associated with this model
   
-  > schema (required): Same as object passed to [mongoose Schema](http://mongoosejs.com/docs/guide.html#definition). Also see [validation](http://mongoosejs.com/docs/validation.html)
+  > schema (optional): Same as object passed to [mongoose Schema](http://mongoosejs.com/docs/guide.html#definition). Also see [validation](http://mongoosejs.com/docs/validation.html)
   
   <br>If you're using mongoose, define your models with mongoose wherever possible. If the model has been defined by mongoose before this function is called, mongoose will throw an OverwriteModelError and if it was defined by Fawn, Fawn will throw an Error. Models can be defined only once.
   

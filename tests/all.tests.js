@@ -17,8 +17,6 @@ global.expect = config.expect;
 global.Promise = config.Promise;
 global.TEST_COLLECTION_A = config.TEST_COLLECTION_A;
 global.TEST_COLLECTION_B = config.TEST_COLLECTION_B;
-global.TestMdlA = utils.getModel(TEST_COLLECTION_A);
-global.TestMdlB = utils.getModel(TEST_COLLECTION_B);
 
 describe("ALL TESTS", function(){
   before(function(){
@@ -26,6 +24,13 @@ describe("ALL TESTS", function(){
     global.Task = Lint.Task;
     global.task = Lint.Task();
     global.taskMdl = task.getTaskCollection();
+
+    task.initModel(TEST_COLLECTION_A);
+    task.initModel(TEST_COLLECTION_B);
+
+    global.TestMdlA = utils.getModel(TEST_COLLECTION_A);
+    global.TestMdlB = utils.getModel(TEST_COLLECTION_B);
+
   });
 
   after(function(){

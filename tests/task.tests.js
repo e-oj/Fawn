@@ -57,6 +57,32 @@ module.exports = describe("Task", function(){
     });
   });
 
+  describe("#save nested object", function(){
+    it("should save successfully with model", function(){
+      var nested = new TestMdlA({name: "Nested User 1", info: {foo: 'bar', some: 'string'}});
+
+      return task.save(TestMdlA, nested).run();
+    });
+
+    it("should have Nested User in " + TEST_COLLECTION_A, function(){
+      return expect(TestMdlA.find({name: "Nested User 1", 'info.foo': 'bar'}).exec()).to.eventually.have.length(1);
+    });
+
+    it("should save successfully with only doc", function(){
+      var nested = new TestMdlA({name: "Nested User 2", info: {foo: 'bar', some: 'string'}});
+
+      return task.save(nested).run();
+    });
+
+    it("should have Nested User in " + TEST_COLLECTION_A, function(){
+      return expect(TestMdlA.find({name: "Nested User 2", 'info.foo': 'bar'}).exec()).to.eventually.have.length(1);
+    });
+
+    it(TEST_COLLECTION_A + " should have length 4", function(){
+      return expect(TestMdlA.find().exec()).to.eventually.have.length(4);
+    });
+  });
+
   describe("#update", function(){
     it("should update successfully", function(){
       return TestMdlB.findOne({name: "Brian Griffin"})
@@ -85,12 +111,30 @@ module.exports = describe("Task", function(){
       return expect(TestMdlB.find({name: "T-REX"}).exec()).to.eventually.have.length(1);
     });
 
-    it(TEST_COLLECTION_A + " should have length 2", function(){
-      return expect(TestMdlA.find().exec()).to.eventually.have.length(2);
+    it(TEST_COLLECTION_A + " should have length 4", function(){
+      return expect(TestMdlA.find().exec()).to.eventually.have.length(4);
     });
 
     it(TEST_COLLECTION_B + " should have length 2", function(){
       return expect(TestMdlB.find().exec()).to.eventually.have.length(2);
+    });
+  });
+
+  describe("#update $ token", function(){
+    it("should update successfully with $gte", function(){
+      return task.update(TestMdlB, {name: "Yo momma", age: {$gte: 38}}, {$inc: {age: 20}}).run();
+    });
+
+    it("should have Yo momma in " + TEST_COLLECTION_B + " with age 58", function(){
+      return expect(TestMdlB.find({name: "Yo momma", age: 58}).exec()).to.eventually.have.length(1);
+    });
+
+    it("should update successfully with $inc", function(){
+      return task.update(TestMdlB, {name: "Yo momma", age: {$in: [58, 59]}}, {$inc: {age: -20}}).run();
+    });
+
+    it("should have Yo momma in " + TEST_COLLECTION_B + " with age 38", function(){
+      return expect(TestMdlB.find({name: "Yo momma", age: 38}).exec()).to.eventually.have.length(1);
     });
   });
 
@@ -122,8 +166,8 @@ module.exports = describe("Task", function(){
       return expect(TestMdlB.find({name: "T-REX"}).exec()).to.eventually.have.length(1);
     });
 
-    it(TEST_COLLECTION_A + " should have length 1", function(){
-      return expect(TestMdlA.find().exec()).to.eventually.have.length(1);
+    it(TEST_COLLECTION_A + " should have length 3", function(){
+      return expect(TestMdlA.find().exec()).to.eventually.have.length(3);
     });
 
     it(TEST_COLLECTION_B + " should have length 1", function(){
@@ -162,8 +206,8 @@ module.exports = describe("Task", function(){
       return expect(TestMdlB.find({name: "Brian Griffin"}).exec()).to.eventually.have.length(1);
     });
 
-    it(TEST_COLLECTION_A + " should have length 2", function(){
-      return expect(TestMdlA.find().exec()).to.eventually.have.length(2);
+    it(TEST_COLLECTION_A + " should have length 4", function(){
+      return expect(TestMdlA.find().exec()).to.eventually.have.length(4);
     });
 
     it(TEST_COLLECTION_B + " should have length 2", function(){

@@ -25,7 +25,7 @@ module.exports = describe("Task", function(){
       var brian = new TestMdlB({name: "Brian Griffin", age: 18});
 
       task.save(TEST_COLLECTION_B, {name: "T-REX", age: 50000000});
-      task.save(emmanuel);
+      task.save(TestMdlA, emmanuel);
       task.save(TEST_COLLECTION_A, {name: "John Damos", age: 26});
       task.save(brian);
 
@@ -62,7 +62,7 @@ module.exports = describe("Task", function(){
       return TestMdlB.findOne({name: "Brian Griffin"})
         .exec()
         .then(function(brian){
-          task.update(TEST_COLLECTION_A, {name: "John Damos"}, {name: "John Snow"});
+          task.update(TEST_COLLECTION_A, {name: {$in: ["John Damos"]}}, {name: "John Snow"});
           task.update(brian, {name: "Yo momma", $inc: {age: 20}});
 
           return task.run()

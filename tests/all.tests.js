@@ -8,7 +8,7 @@
 var config = require("../test_conf");
 config.init();
 
-var Lint = config.Lint;
+var Fawn = config.Fawn;
 var DB = config.DB;
 var TASKS = config.TASKS;
 
@@ -20,13 +20,14 @@ global.TEST_COLLECTION_B = config.TEST_COLLECTION_B;
 
 describe("ALL TESTS", function(){
   before(function(){
-    Lint.init(config.db + DB, TASKS);
-    global.Task = Lint.Task;
-    global.task = Lint.Task();
-    global.taskMdl = task.getTaskCollection();
+    Fawn.init(config.db + DB, TASKS);
 
-    task.initModel(TEST_COLLECTION_A);
-    task.initModel(TEST_COLLECTION_B);
+    Fawn.initModel(TEST_COLLECTION_A);
+    Fawn.initModel(TEST_COLLECTION_B);
+
+    global.Task = Fawn.Task;
+    global.task = Fawn.Task();
+    global.taskMdl = task.getTaskCollection();
 
     global.TestMdlA = utils.getModel(TEST_COLLECTION_A);
     global.TestMdlB = utils.getModel(TEST_COLLECTION_B);

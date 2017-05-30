@@ -214,4 +214,18 @@ module.exports = describe("Task", function(){
       return expect(TestMdlB.find().exec()).to.eventually.have.length(2);
     });
   });
+
+  describe("Results Array", function () {
+    it("Should have the results of all operations", function () {
+      var gabe = new TestMdlB({name: "Gabe", age: 34});
+
+      return expect(
+        task.save(gabe)
+          .save(TEST_COLLECTION_A, {name: "Gabe's Owner", age: 60})
+          .update(gabe, {age: 64})
+          .remove(TEST_COLLECTION_A, {name: "Gabe's Owner"})
+          .run()
+      ).to.eventually.have.length(4);
+    });
+  })
 });

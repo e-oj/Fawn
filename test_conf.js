@@ -11,7 +11,7 @@ var config = {
   , chai: require("chai")
 };
 
-config.init =  function(){
+config.init = function () {
   config.chai.use(require("chai-as-promised"));
   config.expect = config.chai.expect;
 };

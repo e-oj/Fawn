@@ -35,8 +35,14 @@ var task = Fawn.Task()
 task.update("Accounts", {firstName: "John", lastName: "Smith"}, {$inc: {balance: -20}})
   .update("Accounts", {firstName: "Broke", lastName: "Ass"}, {$inc: {balance: 20}})
   .run()
-  .then(function(){
-    //update is complete
+  .then(function(results){
+    //task is complete 
+
+    //mongoose result from first operation
+    var firstUpdateResult = results[0];
+
+    //result from second operation
+    var secondUpdateResult = results[1]
   })
   .catch(function(err){
     // Everything has been rolled back.
@@ -46,7 +52,7 @@ task.update("Accounts", {firstName: "John", lastName: "Smith"}, {$inc: {balance:
   });
 ```
 
-if you prefer not to chain function calls, you don't have to:
+if you prefer not to chain function calls, you don't have to. The results can also be ignored:
 
 ```javascript
 task.update("Accounts", {firstName: "Broke", lastName: "Ass"}, {$inc: {balance: -20}})
@@ -258,14 +264,20 @@ var task = Fawn.Task();
   
   > returns: Promise
 
-  For the database changes to occur, you must call task.run(). This function returns a promise. If an error occurs, the promise is rejected with the error that caused the failure.
+  For the database changes to occur, you must call task.run(). This function returns a promise. On success, the promise is resolved with an array containing the [mongoose](http://mongoosejs.com/docs/api.html) result of each operation in sequence. If an error occurs, the promise is rejected with the error that caused the failure.
   
   ```javascript
   task.update("Accounts", {firstName: "John", lastName: "Smith"}, {$inc: {balance: -20}})
     .update("Accounts", {firstName: "Broke", lastName: "Ass"}, {$inc: {balance: 20}})
     .run()
-    .then(function(){
-      //update is complete
+    .then(function(results){
+      //task is complete 
+
+      //mongoose result from first operation
+      var firstUpdateResult = results[0];
+
+      //result from second operation
+      var secondUpdateResult = results[1]    
     })
     .catch(function(err){
       // Everything has been rolled back.

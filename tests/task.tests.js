@@ -224,8 +224,8 @@ module.exports = describe("Task", function(){
           .save(TEST_COLLECTION_A, {name: "Gabe's Owner", age: 60})
           .update(gabe, {age: 64})
           .remove(TEST_COLLECTION_A, {name: "Gabe's Owner"})
-          .run()
-      ).to.eventually.have.length(4);
+          .run())
+        .to.eventually.have.length(4);
     });
   })
 });

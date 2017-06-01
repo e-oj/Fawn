@@ -42,7 +42,7 @@ task.update("Accounts", {firstName: "John", lastName: "Smith"}, {$inc: {balance:
     var firstUpdateResult = results[0];
 
     //result from second operation
-    var secondUpdateResult = results[1]
+    var secondUpdateResult = results[1];
   })
   .catch(function(err){
     // Everything has been rolled back.
@@ -277,7 +277,7 @@ var task = Fawn.Task();
       var firstUpdateResult = results[0];
 
       //result from second operation
-      var secondUpdateResult = results[1]    
+      var secondUpdateResult = results[1];
     })
     .catch(function(err){
       // Everything has been rolled back.

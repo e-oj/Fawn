@@ -8,6 +8,7 @@ Fawn provides the ability to carry out edits on a mongoDB database as a series o
 - [Getting Started](#getting_started)
 - [Usage](#usage)
 - [API](#api)
+- [Misc.](#misc)
 - [Test](#test)
 
 ## <a name="getting_started"></a>Getting Started:

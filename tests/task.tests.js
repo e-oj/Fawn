@@ -224,14 +224,7 @@ module.exports = describe("Task", function(){
           .save(TEST_COLLECTION_A, {name: "Gabe's Owner", age: 60})
           .update(gabe, {age: 64})
           .remove(TEST_COLLECTION_A, {name: "Gabe's Owner"})
-          .run()
-          .then(function (results) {
-            results.forEach(function (r) {
-              // console.log("==>", r);
-            });
-
-            return Promise.resolve(results);
-          }))
+          .run())
         .to.eventually.have.length(4);
     });
   });

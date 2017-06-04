@@ -224,8 +224,47 @@ module.exports = describe("Task", function(){
           .save(TEST_COLLECTION_A, {name: "Gabe's Owner", age: 60})
           .update(gabe, {age: 64})
           .remove(TEST_COLLECTION_A, {name: "Gabe's Owner"})
-          .run())
+          .run()
+          .then(function (results) {
+            results.forEach(function (r) {
+              // console.log("==>", r);
+            });
+
+            return Promise.resolve(results);
+          }))
         .to.eventually.have.length(4);
     });
-  })
+  });
+
+  describe("Templating tests for future data", function () {
+    it("task with templated data should run successfully", function () {
+      var mickey = new TestMdlB({name: "Mickey Mouse", age: 53});
+      var mick = new TestMdlA({name: "Mick", age: 3});
+
+      return task.save(mickey)
+        .save(mick)
+        .save(TEST_COLLECTION_A, {name: "Alfie", age: {$ojFuture: "1.age"}})
+        .save(TEST_COLLECTION_B, {name: "Minnie Mouse", age: {$ojFuture: "0.age"}})
+        .update(TEST_COLLECTION_B, {name: {$ojFuture: "0.name"}}, {age: {$ojFuture: "1.age"}})
+        .update(TEST_COLLECTION_A, {name: {$ojFuture: "1.name"}}, {age: {$ojFuture: "3.age"}})
+        .remove(TEST_COLLECTION_A, {name: {$ojFuture: "2.name"}, age: 3})
+        .run();
+    });
+
+    it("Should have Mickey Mouse in " + TEST_COLLECTION_B + " with age 3", function () {
+      return expect(TestMdlB.find({name: "Mickey Mouse", age: 3}).exec()).to.eventually.have.length(1);
+    });
+
+    it("Should have Mick in " + TEST_COLLECTION_A + " with age 53", function () {
+      return expect(TestMdlA.find({name: "Mick", age: 53}).exec()).to.eventually.have.length(1);
+    });
+
+    it("Should have Minnie Mouse in " + TEST_COLLECTION_B + " with age 53", function () {
+      return expect(TestMdlB.find({name: "Minnie Mouse", age: 53}).exec()).to.eventually.have.length(1);
+    });
+
+    it("Should not have Alfie in " + TEST_COLLECTION_A, function () {
+      return expect(TestMdlA.find({name: "Alfie"}).exec()).to.eventually.have.length(0);
+    });
+  });
 });

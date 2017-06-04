@@ -42,7 +42,7 @@ task.update("Accounts", {firstName: "John", lastName: "Smith"}, {$inc: {balance:
     var firstUpdateResult = results[0];
 
     //result from second operation
-    var secondUpdateResult = results[1]
+    var secondUpdateResult = results[1];
   })
   .catch(function(err){
     // Everything has been rolled back.
@@ -277,7 +277,7 @@ var task = Fawn.Task();
       var firstUpdateResult = results[0];
 
       //result from second operation
-      var secondUpdateResult = results[1]    
+      var secondUpdateResult = results[1];
     })
     .catch(function(err){
       // Everything has been rolled back.
@@ -311,6 +311,24 @@ var task = Fawn.Task();
       // start server
     });
   ```
+  
+## <a name="misc"></a>Miscellaneous 
+
+### Using the result of previous steps in subsequent steps
+  You might want to use the result of a previous step in a subsequent step. You can do this using an object with the key "$ojFuture". Syntax: {$ojFuture: "indexOfStep.resultProperty1.property2.-----.propertyN"}. Here's how:
+  
+  ```
+  task.save("Kids", {name: {full: "Brody Obi"}}) //result will be {_id: someMongoId, name: {full: "Brody Obi"}}
+    .update("Parents", {_id: parentId}, {firstChild: {id: {$ojFuture: "0._id"} , fullName: {$ojFuture: "0.name.full"}})
+    .run()
+    .then(function(){
+    	// task is complete
+    });
+  ```
+  To use this feature you need to know the exact format of the step's result. For Reference:
+  - the result of a save is the saved object
+  - the result of a remove or update is the raw response from mongodb
+  
   
 ## <a name="test"></a>Test
 

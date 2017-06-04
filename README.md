@@ -318,7 +318,7 @@ var task = Fawn.Task();
 ### Using the result of previous steps in subsequent steps
   You might want to use the result of a previous step in a subsequent step. You can do this using an object with the key "$ojFuture". Syntax: {$ojFuture: "indexOfStep.resultProperty1.property2.-----.propertyN"}. Here's how:
   
-  ```
+  ```javascript
   task.save("Kids", {name: {full: "Brody Obi"}}) //result will be {_id: someMongoId, name: {full: "Brody Obi"}}
     .update("Parents", {_id: parentId}, {firstChild: {id: {$ojFuture: "0._id"} , fullName: {$ojFuture: "0.name.full"}})
     .run()

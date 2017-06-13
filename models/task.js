@@ -2,8 +2,7 @@
  * This module dictates the structure of a
  * task.
  */
-module.exports = function(_mongoose, collection){
-  var mongoose =  _mongoose;
+module.exports = function (mongoose, collection) {
   var Schema = mongoose.Schema;
 
   var taskSchema = new Schema({

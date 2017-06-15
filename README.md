@@ -57,7 +57,7 @@ if you prefer not to chain function calls, you don't have to. The results can al
 
 ```javascript
 task.update("Accounts", {firstName: "Broke", lastName: "Ass"}, {$inc: {balance: -20}})
-task.update("Accounts", {firstName: "Coke", lastName: "Dealer"}, {$inc: {balance: 20}})
+task.update("Accounts", {firstName: "The", lastName: "Plug"}, {$inc: {balance: 20}})
 task.run()
   .then(function(){
     //update is complete

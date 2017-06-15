@@ -1,7 +1,7 @@
 # Fawn
 ## Promise based Library for transactions in MongoDB
 
-Fawn provides the ability to carry out edits on a mongoDB database as a series of steps. If an error occurs on any of the steps, the database is returned to it's initial state (it's state before the transaction started).
+Fawn provides the ability to carry out edits on a mongoDB database as a series of steps. If an error occurs on any of the steps, the database is returned to its initial state (its state before the transaction started).
 
 **View on [GitHub](https://github.com/e-oj/Fawn/)**
 

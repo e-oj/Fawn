@@ -175,19 +175,25 @@ module.exports = describe("Task", function(){
     });
   });
 
-  describe("#fileSave", function () {
+  describe("#saveFile", function () {
     var fName = "le_test_file.oj";
     var id = utils.generateId();
 
-    this.timeout(15000);
-
     it("should save file successfully", function () {
       return task.saveFile(TEST_FILE_PATH, {_id: id, filename: fName})
-        .run(function (results) {
-          console.log("Uploaded file name: ", results[0].filename);
+        .run();
+    });
 
-          return Promise.resolve(results);
-        });
+    it("Should have file with id '" + id + "' in database", function () {
+      var conn = mongoose.connection;
+      var gfs = Grid(conn.db, mongoose.mongo);
+
+      gfs.findOne({_id: id}, function (err, file) {
+        if (err) return done(err);
+
+        expect(file._id).to.equal(id);
+        done();
+      });
     });
   });
 

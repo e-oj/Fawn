@@ -14,6 +14,8 @@ var Fawn = config.Fawn;
 var DB = config.DB;
 var TASKS = config.TASKS;
 
+global.mongoose = require("mongoose");
+global.Grid = require("gridfs-stream");
 global.utils = require("../lib/utils")();
 global.expect = config.expect;
 global.Promise = config.Promise;

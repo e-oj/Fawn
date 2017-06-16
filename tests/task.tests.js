@@ -175,6 +175,22 @@ module.exports = describe("Task", function(){
     });
   });
 
+  describe("#fileSave", function () {
+    var fName = "le_test_file.oj";
+    var id = utils.generateId();
+
+    this.timeout(15000);
+
+    it("should save file successfully", function () {
+      return task.saveFile(TEST_FILE_PATH, {_id: id, filename: fName})
+        .run(function (results) {
+          console.log("Uploaded file name: ", results[0].filename);
+
+          return Promise.resolve(results);
+        });
+    });
+  });
+
   describe("allTogetherNow", function(){
     it("should save, update and remove successfully", function(){
       var brian = new TestMdlB({name: "Brian Griffin", age: 18});

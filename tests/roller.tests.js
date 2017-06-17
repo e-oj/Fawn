@@ -50,6 +50,42 @@ module.exports = describe("Roller", function(){
           return expect(TestMdlA.find({name: "Tyrion Lannister"}).exec()).to.eventually.have.length(1);
         });
     });
+
+    it("should rollback file save", function () {
+      var gfs = Grid(mongoose.connection.db);
+      var id = utils.generateId();
+
+      return task.saveFile(TEST_FILE_PATH, {_id: id})
+        .remove(TestMdlA, {_id: "fail"})
+        .run()
+        .then(failure)
+        .catch(function () {
+          return expect(utils.fileExists(id, gfs)).to.eventually.equal(false);
+        });
+    });
+
+    it("should rollback file remove", function (done) {
+      var gfs = Grid(mongoose.connection.db);
+      var id = utils.generateId();
+      var writeStream = gfs.createWriteStream({_id: id});
+
+      writeStream.on("close", function () {
+        task.removeFile({_id: id})
+          .remove(TestMdlA, {_id: "fail"})
+          .run()
+          .then(failure)
+          .catch(function () {
+            utils.fileExists(id, gfs).then(function (exists) {
+              if (exists) utils.removeFile(id, gfs);
+
+              expect(exists).to.equal(true);
+              done();
+            });
+          });
+      });
+
+      require("fs").createReadStream(TEST_FILE_PATH).pipe(writeStream);
+    });
   });
 });
 

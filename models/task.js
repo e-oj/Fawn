@@ -10,7 +10,7 @@ module.exports = function (mongoose, collection) {
       type: {type: String, required: true}
       , index: {type: Number, required: true}
       , state: {type: Number, required: true}
-      , name: {type: String, required: true}
+      , name: {type: String}
       , condition: {}
       , dataStore: [{}]
       , data: {}

@@ -69,8 +69,24 @@ task.run()
     console.log(err);
   });
 ```
+[GridFS]: <https://docs.mongodb.com/manual/core/gridfs/>
+Files can be saved and removed to and from [GridFS][]:
+```
+var newImageId = someMongoDbId;
 
-The server could crash before a task is complete, You can use the Roller to rollback all incomplete transactions before starting your server.
+task.saveFile("/path/to/new/profile/img", {_id: newImageId, filename: "profile.png"})
+  .removeFile({_id: oldImageId})
+  .update("users", {_id: userId}, {profileImageId: newImageId})
+  .run()
+  .then(function(results){
+    var newImgFile = results[0];
+    
+    console.log(newImgFile.filename) // profile.png
+  });
+
+```
+
+The server could crash before a task is complete, You can use the Roller to rollback all incomplete transactions before starting your server:
 
 ```javascript
 // assuming Fawn has been initialized. See Fawn.init below
@@ -263,7 +279,7 @@ var task = Fawn.Task();
 
   <br> 
   
-### <a name="task_savefile"></a>task.saveFile(filePath, options): save a file to the db via GridFS
+### <a name="task_savefile"></a>task.saveFile(filePath, options): Save a file to the db via [GridFS][]
 
   > filePath (required): Name of the collection we're deleting from or a mongoose model or a mongoose document
   
@@ -286,7 +302,7 @@ var task = Fawn.Task();
 
   <br> 
 
-### <a name="task_removefile"></a>task.removeFile(options): save a file to the db via GridFS
+### <a name="task_removefile"></a>task.removeFile(options): Remove a file from the db via [GridFS][]
 
   > options (required): Same as in [GridStore](http://mongodb.github.io/node-mongodb-native/api-generated/gridstore.html#constructor)
   
@@ -299,8 +315,6 @@ var task = Fawn.Task();
     .then(function(results){
       // if you need the gridStore instance
       var gridStore = results[0];
-      
-      console.log(file.filename); // a_string_filename.ext
     });
   ```
 

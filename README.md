@@ -70,8 +70,9 @@ task.run()
   });
 ```
 [GridFS]: <https://docs.mongodb.com/manual/core/gridfs/>
+
 Files can be saved and removed to and from [GridFS][]:
-```
+```javascript
 var newImageId = someMongoDbId;
 
 task.saveFile("/path/to/new/profile/img", {_id: newImageId, filename: "profile.png"})

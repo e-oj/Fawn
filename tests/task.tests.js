@@ -176,22 +176,36 @@ module.exports = describe("Task", function(){
   });
 
   describe("#saveFile", function () {
-    var fName = "le_test_file.oj";
-    var id = utils.generateId();
-
     it("should save file successfully", function () {
-      return task.saveFile(TEST_FILE_PATH, {_id: id, filename: fName})
+      return task.saveFile(TEST_FILE_PATH, {_id: TEST_FILE_ID, filename: TEST_FILE_NAME})
         .run();
     });
 
-    it("Should have file with id '" + id + "' in database", function () {
-      var conn = mongoose.connection;
-      var gfs = Grid(conn.db, mongoose.mongo);
+    it("Should have file with _id '" + TEST_FILE_ID + "' in database", function () {
+      var gfs = Grid(mongoose.connection.db);
 
-      gfs.findOne({_id: id}, function (err, file) {
+      gfs.findOne({_id: TEST_FILE_ID}, function (err, file) {
         if (err) return done(err);
 
         expect(file._id).to.equal(id);
+        done();
+      });
+    });
+  });
+
+  describe("#removeFile", function () {
+    it("should remove file successfully", function () {
+      return task.removeFile({filename: TEST_FILE_NAME})
+        .run();
+    });
+
+    it("Should not have file with _id '" + TEST_FILE_ID + "' in database", function () {
+      var gfs = Grid(mongoose.connection.db);
+
+      gfs.exist({_id: TEST_FILE_ID}, function (err, exists) {
+        if (err) return done(err);
+
+        expect(exists).to.equal(false);
         done();
       });
     });

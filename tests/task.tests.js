@@ -184,12 +184,7 @@ module.exports = describe("Task", function(){
     it("Should have file with _id '" + TEST_FILE_ID + "' in database", function () {
       var gfs = Grid(mongoose.connection.db);
 
-      gfs.findOne({_id: TEST_FILE_ID}, function (err, file) {
-        if (err) return done(err);
-
-        expect(file._id).to.equal(id);
-        done();
-      });
+      return expect(utils.fileExists(TEST_FILE_ID, gfs)).to.eventually.equal(true);
     });
   });
 
@@ -202,12 +197,7 @@ module.exports = describe("Task", function(){
     it("Should not have file with _id '" + TEST_FILE_ID + "' in database", function () {
       var gfs = Grid(mongoose.connection.db);
 
-      gfs.exist({_id: TEST_FILE_ID}, function (err, exists) {
-        if (err) return done(err);
-
-        expect(exists).to.equal(false);
-        done();
-      });
+      return expect(utils.fileExists(TEST_FILE_ID, gfs)).to.eventually.equal(false);
     });
   });
 
@@ -254,26 +244,29 @@ module.exports = describe("Task", function(){
   describe("Results Array", function () {
     it("Should have the results of all operations", function () {
       var gabe = new TestMdlB({name: "Gabe", age: 34});
+      var id = utils.generateId();
 
       return expect(
         task.save(gabe)
           .save(TEST_COLLECTION_A, {name: "Gabe's Owner", age: 60})
           .update(gabe, {age: 64})
+          .saveFile(TEST_FILE_PATH, {_id: id, filename: {$ojFuture: "0.name"}})
+          .removeFile({_id: id})
           .remove(TEST_COLLECTION_A, {name: "Gabe's Owner"})
           .run())
-        .to.eventually.have.length(4);
+        .to.eventually.have.length(6);
     });
   });
 
   describe("Templating tests for future data", function () {
     it("task with templated data should run successfully", function () {
-      var mickey = new TestMdlB({name: "Mickey Mouse", age: 53});
+      var mickey = new TestMdlB({name: "Mickey Mouse", age: 53, list: [{num: 53}]});
       var mick = new TestMdlA({name: "Mick", age: 3});
 
       return task.save(mickey)
         .save(mick)
         .save(TEST_COLLECTION_A, {name: "Alfie", age: {$ojFuture: "1.age"}})
-        .save(TEST_COLLECTION_B, {name: "Minnie Mouse", age: {$ojFuture: "0.age"}})
+        .save(TEST_COLLECTION_B, {name: "Minnie Mouse", age: {$ojFuture: "0.list.0.num"}})
         .update(TEST_COLLECTION_B, {name: {$ojFuture: "0.name"}}, {age: {$ojFuture: "1.age"}})
         .update(TEST_COLLECTION_A, {name: {$ojFuture: "1.name"}}, {age: {$ojFuture: "3.age"}})
         .remove(TEST_COLLECTION_A, {name: {$ojFuture: "2.name"}, age: 3})

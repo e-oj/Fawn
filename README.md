@@ -91,6 +91,8 @@ roller.roll()
 - [task.update](#task_update)
 - [task.options](#task_options)
 - [task.remove](#task_remove)
+- [task.saveFile](#task_savefile)
+- [task.removeFile](#task_removefile)
 - [task.run](#task_run)
 - [Fawn.Roller](#fawn_roller)
 - [Roller.roll](#roller_roll)
@@ -261,6 +263,51 @@ var task = Fawn.Task();
 
   <br> 
   
+### <a name="task_savefile"></a>task.saveFile(filePath, options): save a file to the db via GridFS
+
+  > filePath (required): Name of the collection we're deleting from or a mongoose model or a mongoose document
+  
+  > options (optional): Same as in [GridStore](http://mongodb.github.io/node-mongodb-native/api-generated/gridstore.html#constructor)
+  
+  Saves the file at "filePath" to the database using GridFS. The result of this operation is the saved file's object. See [File object](https://docs.mongodb.com/manual/core/gridfs/#the-files-collection)
+  
+  ```javascript
+  task.saveFile("path/to/some/file", {filename: "a_string_filename.ext"})
+    .update("SomeCollection", updateConditions, updateData)
+    .run()
+    .then(function(results){
+      var file = results[0];
+      
+      console.log(file.filename); // a_string_filename.ext
+    });
+  ```
+
+  *Note: No changes will be made to to your database until you call task.run()*
+
+  <br> 
+
+### <a name="task_removefile"></a>task.removeFile(options): save a file to the db via GridFS
+
+  > options (required): Same as in [GridStore](http://mongodb.github.io/node-mongodb-native/api-generated/gridstore.html#constructor)
+  
+  Removes a file that matches "options" from the database using GridFS. The result of this operation is a GridStore instance (can be ignored). See [GridStore](http://mongodb.github.io/node-mongodb-native/api-generated/gridstore.html)
+  
+  ```javascript
+  task.removeFile({_id: fileId})
+    .update("SomeCollection", updateConditions, updateData)
+    .run()
+    .then(function(results){
+      // if you need the gridStore instance
+      var gridStore = results[0];
+      
+      console.log(file.filename); // a_string_filename.ext
+    });
+  ```
+
+  *Note: No changes will be made to to your database until you call task.run()*
+
+  <br> 
+  
 ### <a name="task_run"></a>task.run(): Run a task.
   
   > returns: Promise
@@ -312,6 +359,7 @@ var task = Fawn.Task();
       // start server
     });
   ```
+  <br>
   
 ## <a name="misc"></a>Miscellaneous 
 

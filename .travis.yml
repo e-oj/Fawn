@@ -3,7 +3,6 @@ node_js:
   - "node"
   - "7.x"
   - "6.x"
-install: npm install
 cache:
   directories:
     - "node_modules"

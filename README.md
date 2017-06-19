@@ -283,7 +283,7 @@ var task = Fawn.Task();
   
 ### <a name="task_savefile"></a>task.saveFile(filePath, options): Save a file to the db via [GridFS][]
 
-  > filePath (required): Name of the collection we're deleting from or a mongoose model or a mongoose document
+  > filePath (required): Path to the file 
   
   > options (optional): Same as in [GridStore](http://mongodb.github.io/node-mongodb-native/api-generated/gridstore.html#constructor)
   

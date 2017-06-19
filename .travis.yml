@@ -8,4 +8,4 @@ cache:
     - "node_modules"
 services: mongodb
 before_script:
-  - sleep 15
+  - sleep 60

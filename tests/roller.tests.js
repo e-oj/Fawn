@@ -32,7 +32,7 @@ module.exports = describe("Roller", function(){
         .run()
         .then(function(){
           return task.update(TestMdlA, {name: "Tyrion Lannister"}, {name: "Jamie", $inc: {age: 1}})
-            .remove(TestMdlB, {_id: "fail"})
+            .update(TestMdlA, {_id: "blah"}, {name: "fail"})
             .run()
             .then(failure)
             .catch(function(){

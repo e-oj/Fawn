@@ -5,4 +5,5 @@
 node_modules/
 
 lib/tests.js
+test.js
 .DS_Store

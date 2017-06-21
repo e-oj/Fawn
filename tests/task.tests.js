@@ -120,7 +120,7 @@ module.exports = describe("Task", function(){
     });
   });
 
-  describe("#update $ token", function(){
+  describe("Special chars ('$' and '.')", function(){
     it("should update successfully with $gte", function(){
       return task.update(TestMdlB, {name: "Yo momma", age: {$gte: 38}}, {$inc: {age: 20}}).run();
     });
@@ -135,6 +135,39 @@ module.exports = describe("Task", function(){
 
     it("should have Yo momma in " + TEST_COLLECTION_B + " with age 38", function(){
       return expect(TestMdlB.find({name: "Yo momma", age: 38}).exec()).to.eventually.have.length(1);
+    });
+
+    it("should update nested objects successfully", function(){
+      var getHeroes = function(count){
+        var heroes = [];
+
+        while(count--){
+          heroes.push({hero: "The Squirrel fighter in Milan"});
+        }
+
+        return heroes;
+      };
+
+      return task.save(TestMdlA, {name: "Frank", age: 12, heroes: getHeroes(5)})
+        .update(TestMdlA,
+          {'heroes.hero': "The Squirrel fighter in Milan"},
+          {$set: {"heroes.$.hero": "Captain Underpants"}})
+        .run();
+    });
+
+    it("Should have Captain Underpants in Heroes", function(done){
+      TestMdlA.findOne({name: "Frank", age: 12}).lean()
+        .exec()
+        .then(function(result){
+          expect(result.heroes[0].hero).to.equal("Captain Underpants");
+
+          TestMdlA.remove({name: "Frank", age: 12})
+            .exec()
+            .then(function(){
+              done();
+            });
+        })
+        .catch(done);
     });
   });
 

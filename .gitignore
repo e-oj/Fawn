@@ -6,4 +6,5 @@ node_modules/
 
 lib/tests.js
 test.js
+#.travis.yml
 .DS_Store

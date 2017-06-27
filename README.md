@@ -1,4 +1,4 @@
-## [![npm](https://img.shields.io/npm/l/fawn.svg?style=flat-square)](https://www.npmjs.com/package/fawn) [![npm](https://img.shields.io/npm/v/fawn.svg?style=flat-square)](https://www.npmjs.com/package/fawn) [![npm](https://img.shields.io/npm/dt/fawn.svg?style=flat-square)](https://www.npmjs.com/package/fawn)
+## [![travis](https://travis-ci.org/e-oj/Fawn.svg?branch=master)](https://travis-ci.org/e-oj/Fawn) [![npm](https://img.shields.io/npm/l/fawn.svg?style=flat-square)](https://www.npmjs.com/package/fawn) [![npm](https://img.shields.io/npm/v/fawn.svg?style=flat-square)](https://www.npmjs.com/package/fawn) [![npm](https://img.shields.io/npm/dt/fawn.svg?style=flat-square)](https://www.npmjs.com/package/fawn)
 # Fawn
 ## Promise based Library for transactions in MongoDB
 

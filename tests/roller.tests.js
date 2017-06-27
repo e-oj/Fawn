@@ -14,7 +14,7 @@ module.exports = describe("Roller", function(){
         .update(TEST_COLLECTION_B, {name: "Puss in Boots"}, {name: "Aristocat", age: 6})
         .update(TEST_COLLECTION_A, {_id: "blah"}, {name: "fail"});
 
-      return expect(task.run()).to.eventually.be.rejected;
+      return expect(task.run()).to.eventually.be.rejectedWith(/Cast to ObjectId failed/);
     });
 
     it("should rollback save", function(){

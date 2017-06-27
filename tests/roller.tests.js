@@ -27,21 +27,16 @@ module.exports = describe("Roller", function(){
         });
     });
 
-    it("should rollback update", function(done){
-      task.save(TestMdlA, {name: "Tyrion Lannister", age: 34})
+    it("should rollback update", function(){
+      return task.save(TestMdlA, {name: "Tyrion Lannister", age: 34})
         .run()
         .then(function(){
-          task.update(TestMdlA, {name: "Tyrion Lannister"}, {name: "Jamie", $inc: {age: 1}})
+          return task.update(TestMdlA, {name: "Tyrion Lannister"}, {name: "Jamie", $inc: {age: 1}})
             .update(TestMdlA, {_id: "blah"}, {name: "fail"})
             .run()
             .then(failure)
             .catch(function(){
-              TestMdlA.find({name: "Tyrion Lannister"}).exec()
-                .then(function(results){
-                  expect(results).have.length(1);
-                  done();
-                })
-                .catch(done)
+              return expect(TestMdlA.find({name: "Tyrion Lannister"}).exec()).to.eventually.have.length(1);
             });
         })
     });

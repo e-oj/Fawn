@@ -26,14 +26,14 @@ Then:
 ```javascript
 var Fawn = require("fawn");
 
-Fawn.init("mongodb://127.0.0.1:27017/testDB")
+Fawn.init("mongodb://127.0.0.1:27017/testDB");
 ```
 
 ### <a name="examples"></a>Examples
 Say you have two bank accounts, one belongs to John Smith and the other belongs to Broke Ass. You would like to transfer $20 from John Smith to Broke Ass. Assuming all first name and last name pairs are unique, this might look like:
 
 ```javascript
-var task = Fawn.Task()
+var task = Fawn.Task();
 
 //assuming "Accounts" is the Accounts collection
 task.update("Accounts", {firstName: "John", lastName: "Smith"}, {$inc: {balance: -20}})
@@ -145,7 +145,7 @@ Without mongoose, Initialze Fawn like so:
 var options = {
   user: "teh_huose_kat",
   pass: "teh_Kitti_passwrod"
-}
+};
 
 var collection = "Fawn_collection_name_if_you_want_to_specify";
 
@@ -177,7 +177,7 @@ var task = Fawn.Task();
   var schema = {
     name: {type: String, required: true}
     , specials: [{title: String, year: Number}]
-  }
+  };
   
   task.initModel("comedians", schema);
   ```
@@ -276,7 +276,7 @@ var task = Fawn.Task();
   Cars.findOne({year: 2015}, function(car){
     // remove just this car
     task.remove(car);
-  })
+  });
   ```
 
   *Note: No changes will be made to to your database until you call task.run()*
@@ -287,7 +287,9 @@ var task = Fawn.Task();
 
   > filePath (required): Path to the file 
   
-  > options (optional): Same as in [GridStore](http://mongodb.github.io/node-mongodb-native/api-generated/gridstore.html#constructor)
+  > options (optional): Same as [GridStore options][]
+  
+  [GridStore options]: <http://mongodb.github.io/node-mongodb-native/api-generated/gridstore.html#constructor>
   
   Saves the file at "filePath" to the database using GridFS. The result of this operation is the saved file's object. See [File object](https://docs.mongodb.com/manual/core/gridfs/#the-files-collection)
   
@@ -308,9 +310,11 @@ var task = Fawn.Task();
 
 ### <a name="task_removefile"></a>task.removeFile(options): Remove a file from the db via [GridFS][]
 
-  > options (required): Same as in [GridStore](http://mongodb.github.io/node-mongodb-native/api-generated/gridstore.html#constructor)
+  > options (required): Same as in [GridStore options][]
   
-  Removes a file that matches "options" from the database using GridFS. The result of this operation is a GridStore instance (can be ignored). See [GridStore](http://mongodb.github.io/node-mongodb-native/api-generated/gridstore.html)
+  Removes a file that matches "options" from the database using GridFS. The result of this operation is a GridStore instance (can be ignored). See [GridStore]
+  
+  [GridStore]: <http://mongodb.github.io/node-mongodb-native/api-generated/gridstore.html>
   
   ```javascript
   task.removeFile({_id: fileId})
@@ -382,7 +386,7 @@ var task = Fawn.Task();
 ## <a name="misc"></a>Miscellaneous 
 
 ### Using the result of previous steps in subsequent steps
-  You might want to use the result of a previous step in a subsequent step. You can do this using an object with the key "$ojFuture". Syntax: {$ojFuture: "indexOfStep.resultProperty1.property2.-----.propertyN"}. Here's how:
+  You might want to use the result of a previous step in a subsequent step. You can do this using a template object with the key "$ojFuture". Syntax: {$ojFuture: "indexOfStep.resultProperty1.property2.-----.propertyN"}. Here's how:
   
   ```javascript
   task.save("Kids", {name: {full: "Brody Obi"}}) //result will be {_id: someMongoId, name: {full: "Brody Obi"}}
@@ -393,8 +397,10 @@ var task = Fawn.Task();
     });
   ```
   To use this feature you need to know the exact format of the step's result. For Reference:
-  - the result of a save is the saved object
-  - the result of a remove or update is the raw response from mongodb
+  - the result of save is the saved object
+  - the result of remove or update is the raw response from mongodb
+  - the result of saveFile is the saved file object
+  - the result of removeFile is a [GridStore][] instance
   
   
 ## <a name="test"></a>Test

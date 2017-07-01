@@ -310,7 +310,7 @@ var task = Fawn.Task();
 
 ### <a name="task_removefile"></a>task.removeFile(options): Remove a file from the db via [GridFS][]
 
-  > options (required): Same as in [GridStore options][]
+  > options (required): Same as [GridStore options][]
   
   Removes a file that matches "options" from the database using GridFS. The result of this operation is a GridStore instance (can be ignored). See [GridStore]
   

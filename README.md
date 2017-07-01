@@ -25,6 +25,8 @@ Then:
 
 ```javascript
 var Fawn = require("fawn");
+
+Fawn.init("mongodb://127.0.0.1:27017/testDB")
 ```
 
 ### <a name="examples"></a>Examples

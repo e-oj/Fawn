@@ -28,6 +28,13 @@ var Fawn = require("fawn");
 
 Fawn.init("mongodb://127.0.0.1:27017/testDB");
 ```
+or
+```javascript
+var mongoose = require("mongoose");
+mongoose.connect("mongodb://127.0.0.1:27017/testDB");
+
+Fawn.init(mongoose);
+```
 
 ### <a name="examples"></a>Examples
 Say you have two bank accounts, one belongs to John Smith and the other belongs to Broke Ass. You would like to transfer $20 from John Smith to Broke Ass. Assuming all first name and last name pairs are unique, this might look like:

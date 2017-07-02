@@ -32,9 +32,6 @@ describe("ALL TESTS", function(){
   before(function(){
     Fawn.init(config.db + DB, TASKS);
 
-    Fawn.initModel(TEST_COLLECTION_A);
-    Fawn.initModel(TEST_COLLECTION_B);
-
     global.Task = Fawn.Task;
     global.task = Fawn.Task();
     global.taskMdl = task.getTaskCollection();

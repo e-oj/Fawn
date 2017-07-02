@@ -62,6 +62,28 @@ task.update("Accounts", {firstName: "John", lastName: "Smith"}, {$inc: {balance:
     console.log(err);
   });
 ```
+[GridFS]: <https://docs.mongodb.com/manual/core/gridfs/>
+
+Files can be saved to and removed from [GridFS][]. Here's how you might update a user's profile image:
+```javascript
+var newImageId = someMongoDbId;
+
+task.saveFile("/path/to/new/profile/img", {_id: newImageId, filename: "profile.png"})
+  .removeFile({_id: oldImageId})
+  .update("users", {_id: userId}, {profileImageId: newImageId})
+  .run()
+  .then(function(results){
+    var newImgFile = results[0];
+    
+    console.log(newImgFile.filename) // profile.png
+  })
+  .catch(function(err){
+    // Everything has been rolled back.
+    
+    //log the error which caused the failure
+    console.log(err);
+  });
+```
 
 if you prefer not to chain function calls, you don't have to. The results can also be ignored:
 
@@ -78,23 +100,6 @@ task.run()
     //log the error which caused the failure
     console.log(err);
   });
-```
-[GridFS]: <https://docs.mongodb.com/manual/core/gridfs/>
-
-Files can be saved and removed to and from [GridFS][]:
-```javascript
-var newImageId = someMongoDbId;
-
-task.saveFile("/path/to/new/profile/img", {_id: newImageId, filename: "profile.png"})
-  .removeFile({_id: oldImageId})
-  .update("users", {_id: userId}, {profileImageId: newImageId})
-  .run()
-  .then(function(results){
-    var newImgFile = results[0];
-    
-    console.log(newImgFile.filename) // profile.png
-  });
-
 ```
 
 The server could crash before a task is complete, You can use the Roller to rollback all incomplete transactions before starting your server:
@@ -308,6 +313,11 @@ var task = Fawn.Task();
       var file = results[0];
       
       console.log(file.filename); // a_string_filename.ext
+    }).catch(function(err){
+      // Everything has been rolled back.
+      
+      //log the error which caused the failure
+      console.log(err);
     });
   ```
 
@@ -330,6 +340,12 @@ var task = Fawn.Task();
     .then(function(results){
       // if you need the gridStore instance
       var gridStore = results[0];
+    })
+    .catch(function(err){
+      // Everything has been rolled back.
+      
+      //log the error which caused the failure
+      console.log(err);
     });
   ```
 
@@ -401,6 +417,12 @@ var task = Fawn.Task();
     .run()
     .then(function(){
     	// task is complete
+    })
+    .catch(function(err){
+      // Everything has been rolled back.
+    
+      //log the error which caused the failure
+      console.log(err);
     });
   ```
   To use this feature you need to know the exact format of the step's result. For Reference:

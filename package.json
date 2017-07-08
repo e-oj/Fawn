@@ -1,7 +1,7 @@
 {
   "name": "fawn",
   "version": "1.5.0",
-  "description": "Library for Transactions in MongoDB",
+  "description": "Promise based library for transactions in MongoDB",
   "main": "index.js",
   "scripts": {
     "test": "mocha tests/all.tests.js"

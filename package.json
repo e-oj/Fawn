@@ -1,7 +1,7 @@
 {
   "name": "fawn",
   "version": "1.5.0",
-  "description": "Library for atomic-ish operations in MongoDB",
+  "description": "Library for Transactions in MongoDB",
   "main": "index.js",
   "scripts": {
     "test": "mocha tests/all.tests.js"

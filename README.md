@@ -47,18 +47,18 @@ task.update("Accounts", {firstName: "John", lastName: "Smith"}, {$inc: {balance:
   .update("Accounts", {firstName: "Broke", lastName: "Ass"}, {$inc: {balance: 20}})
   .run()
   .then(function(results){
-    //task is complete 
+    // task is complete 
 
-    //mongoose result from first operation
+    // result from first operation
     var firstUpdateResult = results[0];
 
-    //result from second operation
+    // result from second operation
     var secondUpdateResult = results[1];
   })
   .catch(function(err){
     // Everything has been rolled back.
     
-    //log the error which caused the failure
+    // log the error which caused the failure
     console.log(err);
   });
 ```
@@ -80,7 +80,7 @@ task.saveFile("/path/to/new/profile/img", {_id: newImageId, filename: "profile.p
   .catch(function(err){
     // Everything has been rolled back.
     
-    //log the error which caused the failure
+    // log the error which caused the failure
     console.log(err);
   });
 ```
@@ -92,12 +92,12 @@ task.update("Accounts", {firstName: "Broke", lastName: "Ass"}, {$inc: {balance: 
 task.update("Accounts", {firstName: "The", lastName: "Plug"}, {$inc: {balance: 20}})
 task.run()
   .then(function(){
-    //update is complete
+    // update is complete
   })
   .catch(function(err){
     // Everything has been rolled back.
     
-    //log the error which caused the failure
+    // log the error which caused the failure
     console.log(err);
   });
 ```

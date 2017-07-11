@@ -155,19 +155,15 @@ module.exports = describe("Task", function(){
         .run();
     });
 
-    it("Should have Captain Underpants in Heroes", function(done){
-      TestMdlA.findOne({name: "Frank", age: 12}).lean()
+    it("Should have Captain Underpants in Heroes", function(){
+      return TestMdlA.findOne({name: "Frank", age: 12}).lean()
         .exec()
         .then(function(result){
           expect(result.heroes[0].hero).to.equal("Captain Underpants");
 
-          TestMdlA.remove({name: "Frank", age: 12})
-            .exec()
-            .then(function(){
-              done();
-            });
-        })
-        .catch(done);
+          return TestMdlA.remove({name: "Frank", age: 12})
+            .exec();
+        });
     });
   });
 

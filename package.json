@@ -30,13 +30,13 @@
   "author": "Emmanuel Olaojo",
   "license": "MIT",
   "dependencies": {
-    "bluebird": "3.4.1",
-    "gridfs-stream": "1.1.1",
-    "mongoose": "4.5.1"
+    "bluebird": "^3.5.0",
+    "gridfs-stream": "^1.1.1",
+    "mongoose": "^4.11.1"
   },
   "devDependencies": {
-    "chai": "3.5.0",
-    "chai-as-promised": "5.3.0",
-    "mocha": "2.5.3"
+    "chai": "^4.1.0",
+    "chai-as-promised": "^7.1.1",
+    "mocha": "^3.4.2"
   }
 }

@@ -394,7 +394,7 @@ var task = Fawn.Task();
  
 ### <a name="roller_roll"></a>Roller.roll(): Roll back all incomplete transcations
   
-  Returns all the documents affected by incomplete transactions to their original state. Should only be used when no tasks are in progress, usually on server startup.
+  In case of a server crash or any other fatal error, use the roller to return all the documents affected by incomplete transactions to their original state. Should only be used when no tasks are in progress, usually on server startup.
   
   ```javascript
   var roller = Fawn.Roller();

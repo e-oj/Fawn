@@ -18,7 +18,8 @@ global.mongoose = require("mongoose");
 global.Grid = require("gridfs-stream");
 Grid.mongo = mongoose.mongo;
 
-global.utils = require("../lib/utils/db.utils")();
+global.dbUtils = require("../lib/utils/db.utils")();
+global.utils = require("../lib/utils/gen.utils");
 global.expect = config.expect;
 global.Promise = config.Promise;
 global.TEST_COLLECTION_A = config.TEST_COLLECTION_A;
@@ -36,15 +37,15 @@ describe("ALL TESTS", function(){
     global.task = Fawn.Task();
     global.taskMdl = task.getTaskCollection();
 
-    global.TestMdlA = utils.getModel(TEST_COLLECTION_A);
-    global.TestMdlB = utils.getModel(TEST_COLLECTION_B);
+    global.TestMdlA = dbUtils.getModel(TEST_COLLECTION_A);
+    global.TestMdlB = dbUtils.getModel(TEST_COLLECTION_B);
 
     fs.writeFileSync(TEST_FILE_PATH, TEST_FILE_TEXT);
   });
 
   after(function(){
     fs.unlinkSync(TEST_FILE_PATH);
-    return utils.dropCollection(TASKS);
+    return dbUtils.dropCollection(TASKS);
   });
 
   require("./task.tests");

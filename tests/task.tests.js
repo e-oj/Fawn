@@ -88,7 +88,6 @@ module.exports = describe("Task", function(){
       return TestMdlB.findOne({name: "Brian Griffin"})
         .exec()
         .then(function(brian){
-          console.log(brian);
           task.update(TEST_COLLECTION_A, {name: {$in: ["John Damos"]}}, {name: "John Snow"});
           task.update(brian, {name: "Yo momma", $inc: {age: 20}});
 
@@ -214,7 +213,7 @@ module.exports = describe("Task", function(){
     it("Should have file with _id '" + TEST_FILE_ID + "' in database", function () {
       var gfs = Grid(mongoose.connection.db);
 
-      return expect(utils.fileExists(TEST_FILE_ID, gfs)).to.eventually.equal(true);
+      return expect(dbUtils.fileExists(TEST_FILE_ID, gfs)).to.eventually.equal(true);
     });
   });
 
@@ -227,7 +226,7 @@ module.exports = describe("Task", function(){
     it("Should not have file with _id '" + TEST_FILE_ID + "' in database", function () {
       var gfs = Grid(mongoose.connection.db);
 
-      return expect(utils.fileExists(TEST_FILE_ID, gfs)).to.eventually.equal(false);
+      return expect(dbUtils.fileExists(TEST_FILE_ID, gfs)).to.eventually.equal(false);
     });
   });
 

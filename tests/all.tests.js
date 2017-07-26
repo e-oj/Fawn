@@ -18,7 +18,7 @@ global.mongoose = require("mongoose");
 global.Grid = require("gridfs-stream");
 Grid.mongo = mongoose.mongo;
 
-global.utils = require("../lib/utils")();
+global.utils = require("../lib/utils/db.utils")();
 global.expect = config.expect;
 global.Promise = config.Promise;
 global.TEST_COLLECTION_A = config.TEST_COLLECTION_A;

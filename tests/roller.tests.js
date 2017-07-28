@@ -32,13 +32,13 @@ module.exports = describe("Roller", function(){
     it("should rollback update", function(){
       return task.save(TestMdlA, {name: "Tyrion Lannister", age: 34})
         .run()
-        .then(function(){
+        .then(function(result){
           return task.update(TestMdlA, {name: "Tyrion Lannister"}, {name: "Jamie", $inc: {age: 1}})
             .update(TestMdlA, {_id: "blah"}, {name: "fail"})
             .run()
             .then(failure)
-            .catch(function(err){
-              return expect(TestMdlA.collection.find({name: "Tyrion Lannister"}).toArray())
+            .catch(function(){
+              return expect(TestMdlA.find({name: "Tyrion Lannister"}).exec())
                 .to.eventually.have.length(1);
             });
         })

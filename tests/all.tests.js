@@ -45,7 +45,7 @@ describe("ALL TESTS", function(){
 
   after(function(){
     fs.unlinkSync(TEST_FILE_PATH);
-    return dbUtils.dropCollection(TASKS);
+    // return dbUtils.dropCollection(TASKS);
   });
 
   require("./task.tests");

@@ -25,7 +25,8 @@ module.exports = describe("Roller", function(){
         .run()
         .then(failure)
         .catch(function(){
-          return expect(TestMdlA.find({name: "Arya Stark"}).exec()).to.eventually.have.length(0);
+          return expect(TestMdlA.find({name: "Arya Stark"}).exec())
+            .to.eventually.have.length(0);
         });
     });
 

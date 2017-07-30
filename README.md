@@ -85,12 +85,12 @@ task.saveFile("/path/to/new/profile/img", {_id: newImageId, filename: "profile.p
   });
 ```
 
-if you prefer not to chain function calls, you don't have to. The results can also be ignored:
+By default, tasks run using the native driver but you can opt for mongoose. If you prefer not to chain function calls, you don't have to:
 
 ```javascript
 task.update("Accounts", {firstName: "Broke", lastName: "Ass"}, {$inc: {balance: -20}})
 task.update("Accounts", {firstName: "The", lastName: "Plug"}, {$inc: {balance: 20}})
-task.run()
+task.run({useMongoose: true)
   .then(function(){
     // update is complete
   })
@@ -183,7 +183,9 @@ var task = Fawn.Task();
   
   > schema (optional): Same as object passed to [mongoose Schema](http://mongoosejs.com/docs/guide.html#definition). Also see [validation](http://mongoosejs.com/docs/validation.html)
   
-  <br>If you're using mongoose, define your models with mongoose wherever possible. If the model has been defined by mongoose before this function is called, mongoose will throw an OverwriteModelError and if it was defined by Fawn, Fawn will throw an Error. Models can be defined only once.
+  *Note: For model validation to work, run task with useMongoose set to true*
+  <br>
+<br>Initalizes a mongoose model with the provided schema. If you're using mongoose, define your models with mongoose wherever possible. If the model has been defined by mongoose before this function is called, mongoose will throw an OverwriteModelError and if it was defined by Fawn, Fawn will throw an Error. Models can be defined only once.
   
   ```javascript
   var schema = {
@@ -191,7 +193,12 @@ var task = Fawn.Task();
     , specials: [{title: String, year: Number}]
   };
   
-  task.initModel("comedians", schema);
+  task.initModel("comedians", schema)
+    .save("comedians", {name: "Kevin Hart", specials: [{title: "What Now", year: 2016}]})
+    .run({useMongoose: true})
+    .then(function(results){
+      console.log(results);
+    });
   ```
   
   Save operations to the "comedians" model will validate against the schema;
@@ -353,20 +360,22 @@ var task = Fawn.Task();
 
   <br> 
   
-### <a name="task_run"></a>task.run(): Run a task.
+### <a name="task_run"></a>task.run(options): Run a task.
+
+  > options: {useMongoose: Boolean}
   
   > returns: Promise
 
-  For the database changes to occur, you must call task.run(). This function returns a promise. On success, the promise is resolved with an array containing the [mongoose](http://mongoosejs.com/docs/api.html) result of each operation in sequence. If an error occurs, the promise is rejected with the error that caused the failure.
+  For the database changes to occur, you must call task.run(). This function returns a promise. On success, the promise is resolved with an array containing the [node-mongodb-native](http://mongodb.github.io/node-mongodb-native/2.2/api/Collection.html) or [mongoose](http://mongoosejs.com/docs/api.html) result of each operation in sequence. If an error occurs, the promise is rejected with the error that caused the failure.
   
   ```javascript
   task.update("Accounts", {firstName: "John", lastName: "Smith"}, {$inc: {balance: -20}})
     .update("Accounts", {firstName: "Broke", lastName: "Ass"}, {$inc: {balance: 20}})
-    .run()
+    .run() // or run({useMongoose: true}); 
     .then(function(results){
       //task is complete 
 
-      //mongoose result from first operation
+      //result from first operation
       var firstUpdateResult = results[0];
 
       //result from second operation
@@ -379,6 +388,13 @@ var task = Fawn.Task();
       console.log(err);
     });
   ```
+  
+  <a name="task_run_results"> Results Reference:
+  - the result of save is, [insertOneWriteOpResult](http://mongodb.github.io/node-mongodb-native/2.2/api/Collection.html#~insertOneWriteOpResult) for mongodb native, and the saved doc for mongoose
+  - the result of remove is, [deleteWriteOpResult](http://mongodb.github.io/node-mongodb-native/2.2/api/Collection.html#~deleteWriteOpResult) for mongodb native, and [writeOpResult](http://mongodb.github.io/node-mongodb-native/2.2/api/Collection.html#~WriteOpResult) for mongoose
+  - the result of update is, [updateWriteOpResult](http://mongodb.github.io/node-mongodb-native/2.2/api/Collection.html#~updateWriteOpResult) for mongodb native, and the [mongodb update output](https://docs.mongodb.com/v2.6/reference/command/update/#output) for mongoose
+  - the result of saveFile is the saved file object
+  - the result of removeFile is a [GridStore][] instance
   <br>
   
 ### <a name="fawn_roller"></a>Fawn.Roller(): Get the Roller object.
@@ -414,7 +430,7 @@ var task = Fawn.Task();
   ```javascript
   task.save("Kids", {name: {full: "Brody Obi"}}) //result will be {_id: someMongoId, name: {full: "Brody Obi"}}
     .update("Parents", {_id: parentId}, {firstChild: {id: {$ojFuture: "0._id"} , fullName: {$ojFuture: "0.name.full"}})
-    .run()
+    .run({useMongoose: true})
     .then(function(){
     	// task is complete
     })
@@ -425,11 +441,7 @@ var task = Fawn.Task();
       console.log(err);
     });
   ```
-  To use this feature you need to know the exact format of the step's result. For Reference:
-  - the result of save is the saved object
-  - the result of remove or update is the raw response from mongodb
-  - the result of saveFile is the saved file object
-  - the result of removeFile is a [GridStore][] instance
+  To use this feature you need to know the exact format of the step's result. For Reference: [Results](#task_run_results)
   
   
 ## <a name="test"></a>Test

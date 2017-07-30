@@ -219,8 +219,7 @@ module.exports = describe("Task", function(){
 
   describe("#removeFile", function () {
     it("should remove file successfully", function () {
-      return task.removeFile({filename: TEST_FILE_NAME})
-        .run();
+      return task.removeFile({filename: TEST_FILE_NAME}).run();
     });
 
     it("Should not have file with _id '" + TEST_FILE_ID + "' in database", function () {

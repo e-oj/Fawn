@@ -3,8 +3,8 @@
 module.exports = describe("Task", function(){
   after(require("./cleanup"));
 
-  describe.skip("#initModel", function(){
-    it("should validate data", function(){
+  describe("#initModel", function(){
+    it("should validate data when using mongoose", function(){
       var task = Task();
       var model = "cars";
 
@@ -15,7 +15,7 @@ module.exports = describe("Task", function(){
 
       task.save(model, {name: "John"});
 
-      return expect(task.run()).to.eventually.not.be.rejected;//With(/validation failed/);
+      return expect(task.run({useMongoose: true})).to.eventually.not.be.rejected;//With(/validation failed/);
     });
   });
 
@@ -267,6 +267,30 @@ module.exports = describe("Task", function(){
 
     it(TEST_COLLECTION_B + " should have length 2", function(){
       return expect(TestMdlB.find().exec()).to.eventually.have.length(2);
+    });
+  });
+
+  describe("Run with mongoose", function(){
+    var coll = "ufc_fighters";
+
+    it("should run without errors", function(){
+      task.save(coll, {name: "Jon Jones", champ: false})
+        .save(coll, {name: "Daniel Cormier", champ: true})
+        .update(coll, {name: {$ojFuture: "0.name"}}, {champ: true})
+        .update(coll, {name: {$ojFuture: "1.name"}}, {champ: false})
+        .save(coll, {name: "Damian Maia", champ: false})
+        .remove(coll, {_id: {$ojFuture: "4._id"}});
+
+      return expect(task.run({useMongoose: true}))
+        .to.eventually.not.be.rejected;
+    });
+
+    it("should save and update successfully", function(){
+      var db = mongoose.connection.db;
+      var fighters = db.collection(coll);
+
+      return expect(fighters.find({name: "Jon Jones", champ: true}).toArray())
+        .to.eventually.have.length(1);
     });
   });
 

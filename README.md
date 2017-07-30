@@ -388,7 +388,6 @@ var task = Fawn.Task();
       console.log(err);
     });
   ```
-  
   <a name="task_run_results"> Results Reference:
   - the result of save is, [insertOneWriteOpResult](http://mongodb.github.io/node-mongodb-native/2.2/api/Collection.html#~insertOneWriteOpResult) for mongodb native, and the saved doc for mongoose
   - the result of remove is, [deleteWriteOpResult](http://mongodb.github.io/node-mongodb-native/2.2/api/Collection.html#~deleteWriteOpResult) for mongodb native, and [writeOpResult](http://mongodb.github.io/node-mongodb-native/2.2/api/Collection.html#~WriteOpResult) for mongoose

@@ -14,7 +14,9 @@ module.exports = describe("Roller", function(){
         .update(TEST_COLLECTION_B, {name: "Puss in Boots"}, {name: "Aristocat", age: 6})
         .update(TEST_COLLECTION_A, {_id: "blah"}, {name: "fail"});
 
-      return expect(task.run()).to.eventually.be.rejectedWith(/Cast to ObjectId failed/);
+      return expect(task.run())
+        .to.eventually.be
+        .rejectedWith(/must be a single String of 12 bytes or a string of 24 hex characters/);
     });
 
     it("should rollback save", function(){
@@ -23,20 +25,22 @@ module.exports = describe("Roller", function(){
         .run()
         .then(failure)
         .catch(function(){
-          return expect(TestMdlA.find({name: "Arya Stark"}).exec()).to.eventually.have.length(0);
+          return expect(TestMdlA.find({name: "Arya Stark"}).exec())
+            .to.eventually.have.length(0);
         });
     });
 
     it("should rollback update", function(){
       return task.save(TestMdlA, {name: "Tyrion Lannister", age: 34})
         .run()
-        .then(function(){
+        .then(function(result){
           return task.update(TestMdlA, {name: "Tyrion Lannister"}, {name: "Jamie", $inc: {age: 1}})
             .update(TestMdlA, {_id: "blah"}, {name: "fail"})
             .run()
             .then(failure)
             .catch(function(){
-              return expect(TestMdlA.find({name: "Tyrion Lannister"}).exec()).to.eventually.have.length(1);
+              return expect(TestMdlA.find({name: "Tyrion Lannister"}).exec())
+                .to.eventually.have.length(1);
             });
         })
     });
@@ -60,7 +64,7 @@ module.exports = describe("Roller", function(){
         .run()
         .then(failure)
         .catch(function () {
-          return expect(utils.fileExists(id, gfs)).to.eventually.equal(false);
+          return expect(dbUtils.fileExists(id, gfs)).to.eventually.equal(false);
         });
     });
 
@@ -75,8 +79,8 @@ module.exports = describe("Roller", function(){
           .run()
           .then(failure)
           .catch(function () {
-            utils.fileExists(id, gfs).then(function (exists) {
-              if (exists) utils.removeFile(id, gfs);
+            dbUtils.fileExists(id, gfs).then(function (exists) {
+              if (exists) dbUtils.removeFile(id, gfs);
 
               expect(exists).to.equal(true);
               done();

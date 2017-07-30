@@ -4,7 +4,7 @@ module.exports = describe("Task", function(){
   after(require("./cleanup"));
 
   describe("#initModel", function(){
-    it("should validate data", function(){
+    it("should validate data when using mongoose", function(){
       var task = Task();
       var model = "cars";
 
@@ -15,7 +15,7 @@ module.exports = describe("Task", function(){
 
       task.save(model, {name: "John"});
 
-      return expect(task.run()).to.eventually.be.rejectedWith(/validation failed/);
+      return expect(task.run({useMongoose: true})).to.eventually.not.be.rejected;//With(/validation failed/);
     });
   });
 
@@ -213,7 +213,7 @@ module.exports = describe("Task", function(){
     it("Should have file with _id '" + TEST_FILE_ID + "' in database", function () {
       var gfs = Grid(mongoose.connection.db);
 
-      return expect(utils.fileExists(TEST_FILE_ID, gfs)).to.eventually.equal(true);
+      return expect(dbUtils.fileExists(TEST_FILE_ID, gfs)).to.eventually.equal(true);
     });
   });
 
@@ -225,7 +225,7 @@ module.exports = describe("Task", function(){
     it("Should not have file with _id '" + TEST_FILE_ID + "' in database", function () {
       var gfs = Grid(mongoose.connection.db);
 
-      return expect(utils.fileExists(TEST_FILE_ID, gfs)).to.eventually.equal(false);
+      return expect(dbUtils.fileExists(TEST_FILE_ID, gfs)).to.eventually.equal(false);
     });
   });
 
@@ -269,6 +269,45 @@ module.exports = describe("Task", function(){
     });
   });
 
+  describe("Run with mongoose", function(){
+    var coll = "ufc_fighters";
+
+    it("should run without errors", function(){
+      task.save(coll, {name: "Jon Jones", champ: false})
+        .save(coll, {name: "Daniel Cormier", champ: true})
+        .update(coll, {name: {$ojFuture: "0.name"}}, {champ: true})
+        .update(coll, {name: {$ojFuture: "1.name"}}, {champ: false})
+        .save(coll, {name: "Damian Maia", champ: false})
+        .remove(coll, {_id: {$ojFuture: "4._id"}});
+
+      return expect(task.run({useMongoose: true}))
+        .to.eventually.not.be.rejected;
+    });
+
+    it("should save and update successfully", function(){
+      var db = mongoose.connection.db;
+      var fighters = db.collection(coll);
+
+      return Promise.all([
+        expect(fighters.find({name: "Jon Jones", champ: true})
+          .toArray())
+          .to.eventually.have.length(1),
+        expect(fighters.find({name: "Daniel Cormier", champ: false})
+          .toArray())
+          .to.eventually.have.length(1)
+      ]);
+    });
+
+    it("should remove successfully", function(){
+      var db = mongoose.connection.db;
+      var fighters = db.collection(coll);
+
+      return expect(fighters.find({name: "Damian Maia"})
+        .toArray())
+        .to.eventually.have.length(0)
+    });
+  });
+
   describe("Results Array", function () {
     it("Should have the results of all operations", function () {
       var gabe = new TestMdlB({name: "Gabe", age: 34});
@@ -278,7 +317,7 @@ module.exports = describe("Task", function(){
         task.save(gabe)
           .save(TEST_COLLECTION_A, {name: "Gabe's Owner", age: 60})
           .update(gabe, {age: 64})
-          .saveFile(TEST_FILE_PATH, {_id: id, filename: {$ojFuture: "0.name"}})
+          .saveFile(TEST_FILE_PATH, {_id: id, filename: {$ojFuture: "0.ops.0.name"}})
           .removeFile({_id: id})
           .remove(TEST_COLLECTION_A, {name: "Gabe's Owner"})
           .run())
@@ -293,11 +332,11 @@ module.exports = describe("Task", function(){
 
       return task.save(mickey)
         .save(mick)
-        .save(TEST_COLLECTION_A, {name: "Alfie", age: {$ojFuture: "1.age"}})
-        .save(TEST_COLLECTION_B, {name: "Minnie Mouse", age: {$ojFuture: "0.list.0.num"}})
-        .update(TEST_COLLECTION_B, {name: {$ojFuture: "0.name"}}, {age: {$ojFuture: "1.age"}})
-        .update(TEST_COLLECTION_A, {name: {$ojFuture: "1.name"}}, {age: {$ojFuture: "3.age"}})
-        .remove(TEST_COLLECTION_A, {name: {$ojFuture: "2.name"}, age: 3})
+        .save(TEST_COLLECTION_A, {name: "Alfie", age: {$ojFuture: "1.ops.0.age"}})
+        .save(TEST_COLLECTION_B, {name: "Minnie Mouse", age: {$ojFuture: "0.ops.0.list.0.num"}})
+        .update(TEST_COLLECTION_B, {name: {$ojFuture: "0.ops.0.name"}}, {age: {$ojFuture: "1.ops.0.age"}})
+        .update(TEST_COLLECTION_A, {name: {$ojFuture: "1.ops.0.name"}}, {age: {$ojFuture: "3.ops.0.age"}})
+        .remove(TEST_COLLECTION_A, {name: {$ojFuture: "2.ops.0.name"}, age: 3})
         .run();
     });
 

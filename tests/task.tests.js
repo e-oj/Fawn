@@ -289,8 +289,23 @@ module.exports = describe("Task", function(){
       var db = mongoose.connection.db;
       var fighters = db.collection(coll);
 
-      return expect(fighters.find({name: "Jon Jones", champ: true}).toArray())
-        .to.eventually.have.length(1);
+      return Promise.all([
+        expect(fighters.find({name: "Jon Jones", champ: true})
+          .toArray())
+          .to.eventually.have.length(1),
+        expect(fighters.find({name: "Daniel Cormier", champ: false})
+          .toArray())
+          .to.eventually.have.length(1)
+      ]);
+    });
+
+    it("should remove successfully", function(){
+      var db = mongoose.connection.db;
+      var fighters = db.collection(coll);
+
+      return expect(fighters.find({name: "Damian Maia"})
+        .toArray())
+        .to.eventually.have.length(0)
     });
   });
 

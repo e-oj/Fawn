@@ -4,7 +4,7 @@
 
 Fawn provides the ability to carry out edits on a mongoDB database as a series of steps. If an error occurs on any of the steps, the database is returned to its initial state (its state before the transaction started). It's based on the two phase commit system described in the [MongoDB docs](https://docs.mongodb.com/manual/tutorial/perform-two-phase-commits/)
 
-**View on [GitHub](https://github.com/e-oj/Fawn/)**
+**View on [GitHub](https://github.com/e-oj/Fawn/?target=_blank)**
 
 - [Getting Started](#getting_started)
 - [Usage](#usage)

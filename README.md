@@ -90,7 +90,7 @@ By default, tasks run using the native driver but you can opt for mongoose. If y
 ```javascript
 task.update("Accounts", {firstName: "Broke", lastName: "Ass"}, {$inc: {balance: -20}})
 task.update("Accounts", {firstName: "The", lastName: "Plug"}, {$inc: {balance: 20}})
-task.run({useMongoose: true)
+task.run({useMongoose: true})
   .then(function(){
     // update is complete
   })

@@ -150,7 +150,7 @@ mongoose.connect("mongodb://127.0.0.1:27017/testDB");
 Fawn.init(mongoose, "Fawn_collection_name_if_you_want_to_specify");
 ```
 
-Without mongoose, Initialze Fawn like so:
+Without mongoose, Initialize Fawn like so:
 
 ```javascript
 // options object (http://mongoosejs.com/docs/connections.html#options)

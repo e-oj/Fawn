@@ -286,7 +286,7 @@ with mongoose:
 with Fawn:
 ```javascript
   var doc = someMongooseDocument;
-  var newDoc = doc.toObject;
+  var newDoc = doc.toObject();
   
   newDoc.someProperty = newValue
   

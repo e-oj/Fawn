@@ -55,6 +55,25 @@ module.exports = describe("Roller", function(){
         });
     });
 
+    it("should rollback save, update and remove with mongoose", function(){
+      var dog1 = new TestMdlC({name: "dog1", age: 2});
+      var dog2 = new TestMdlC({name: "dog2", age: 3});
+      var dog2b = {_id: dog2._id, name: dog2.name, age: 5};
+      var dog3 = new TestMdlC({age: 4});
+
+      return task.save(dog1)
+        .save(dog2)
+        .remove(dog1)
+        .update(dog2, dog2b)
+        .options({viaSave: true})
+        .save(dog3)
+        .run({useMongoose: true})
+        .then(failure)
+        .catch(function(){
+          return expect(TestMdlC.find().exec()).to.eventually.have.length(0);
+        });
+    });
+
     it("should rollback file save", function () {
       var gfs = Grid(mongoose.connection.db);
       var id = utils.generateId();

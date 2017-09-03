@@ -15,6 +15,7 @@ module.exports = function (mongoose, collection) {
       , dataStore: [{}]
       , data: {}
       , options: {}
+      , useMongoose: Boolean
     }]
   });
 

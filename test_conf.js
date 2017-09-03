@@ -7,7 +7,8 @@ var config = {
   , Fawn: require("./lib/fawn")
   , Promise: require("bluebird")
   , TEST_COLLECTION_A: "humans"
-  , TEST_COLLECTION_B: "animals"
+  , TEST_COLLECTION_B: "pets"
+  , TEST_COLLECTION_C: "animal"
   , TEST_FILE_TEXT: "This text is used to test file features"
   , TEST_FILE_PATH: "./test.oj"
   , chai: require("chai")

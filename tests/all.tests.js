@@ -24,6 +24,7 @@ global.expect = config.expect;
 global.Promise = config.Promise;
 global.TEST_COLLECTION_A = config.TEST_COLLECTION_A;
 global.TEST_COLLECTION_B = config.TEST_COLLECTION_B;
+global.TEST_COLLECTION_C = config.TEST_COLLECTION_C;
 global.TEST_FILE_PATH = config.TEST_FILE_PATH;
 global.TEST_FILE_TEXT = config.TEST_FILE_TEXT;
 global.TEST_FILE_NAME = "FAWN_TEST.oj";
@@ -39,6 +40,10 @@ describe("ALL TESTS", function(){
 
     global.TestMdlA = dbUtils.getModel(TEST_COLLECTION_A);
     global.TestMdlB = dbUtils.getModel(TEST_COLLECTION_B);
+    global.TestMdlC = dbUtils.getModel(TEST_COLLECTION_C, {
+      name: {type: String, required: true}
+      , age: Number
+    });
 
     fs.writeFileSync(TEST_FILE_PATH, TEST_FILE_TEXT);
   });

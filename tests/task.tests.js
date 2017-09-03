@@ -120,6 +120,27 @@ module.exports = describe("Task", function(){
     });
   });
 
+  describe("#update - via save", function(){
+    it("should update successfully with the viaSave option", function(done){
+      var newAge = 4;
+
+      var c = {name: "cat", age: 3};
+      var cat = new TestMdlC(c);
+
+      c._id = cat._id;
+      c.age = newAge;
+
+      task.save(cat)
+        .update(cat, c)
+        .options({viaSave: true})
+        .run({useMongoose: true})
+        .then(function(results){
+          expect(results[1].age).to.equal(newAge);
+          done();
+        });
+    });
+  });
+
   describe("Special chars ('$' and '.')", function(){
     it("should update successfully with $gte", function(){
       return task.update(TestMdlB, {name: "Yo momma", age: {$gte: 38}}, {$inc: {age: 20}}).run();

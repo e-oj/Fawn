@@ -137,7 +137,8 @@ module.exports = describe("Task", function(){
         .then(function(results){
           expect(results[1].age).to.equal(newAge);
           done();
-        });
+        })
+        .catch(done);
     });
   });
 

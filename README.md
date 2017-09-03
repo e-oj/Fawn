@@ -259,7 +259,7 @@ var task = Fawn.Task();
   
 ### <a name="task_options"></a>task.options(options): Add options to an update task.
 
-  > options (required): Update options - same as in [mongoose][]
+  > options (required): Update options = [mongoose][] options + {viaSave: Boolean}
   
   <br> Attach to update call as shown
   
@@ -273,6 +273,28 @@ var task = Fawn.Task();
   task.options({multi: true});
   ```
   
+  The <b>viaSave</b> option allows you update a <b><i>mongoose</i></b> document using the save function. It's useful if you want to trigger mongoose pre save hooks. <b><i>For this option to work you must run the task using mongoose<i><b>
+
+with mongoose:
+```javascript
+  var doc = someMongooseDocument;
+  
+  doc.someProperty = newValue;
+  doc.save().then(console.log);
+```
+
+with Fawn:
+```javascript
+  var doc = someMongooseDocument;
+  var newDoc = doc.toObject;
+  
+  newDoc.someProperty = newValue
+  
+  task.update(doc, newDoc)
+    .options({viaSave: true})
+    .run({useMongoose: true})
+    .then(console.log);
+  ```
   *Note: No changes will be made to to your database until you call task.run()*
 
   <br>

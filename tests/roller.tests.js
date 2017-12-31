@@ -12,16 +12,16 @@ module.exports = describe("Roller", function(){
         .save(TestMdlB, {name: "Puss in Boots", age: 26})
         .update(TestMdlA, {name: "BoJack Horseman"}, {name: "Samurai Jack", age: 300})
         .update(TEST_COLLECTION_B, {name: "Puss in Boots"}, {name: "Aristocat", age: 6})
-        .update(TEST_COLLECTION_A, {_id: "blah"}, {name: "fail"});
+        .save(TEST_COLLECTION_A, {_id: ["fail"]}, {name: "fail"});
 
       return expect(task.run())
         .to.eventually.be
-        .rejectedWith(/must be a single String of 12 bytes or a string of 24 hex characters/);
+        .rejectedWith(/can't use an array for _id/);
     });
 
     it("should rollback save", function(){
       return task.save(TestMdlA, {name: "Arya Stark", age: 34})
-        .update(TestMdlA, {_id: "blah"}, {name: "fail"})
+        .save(TestMdlA, {_id: ["fail"]}, {name: "fail"})
         .run()
         .then(failure)
         .catch(function(){
@@ -38,7 +38,7 @@ module.exports = describe("Roller", function(){
           var id = result[0].ops[0]._id;
 
           return task.update(TestMdlA, {_id: id}, {name: "Jamie", $inc: {age: 1}})
-            .update(TestMdlA, {_id: "blah"}, {name: "fail"})
+            .save(TestMdlA, {_id: ["fail"]}, {name: "fail"})
             .run()
             .then(failure)
             .catch(function(){
@@ -50,7 +50,7 @@ module.exports = describe("Roller", function(){
 
     it("should rollback remove", function(){
       return task.remove(TestMdlA, {name: "Tyrion Lannister"})
-        .remove(TestMdlA, {_id: "fail"})
+        .save(TestMdlA, {_id: ["fail"]}, {name: "fail"})
         .run()
         .then(failure)
         .catch(function(){
@@ -82,7 +82,7 @@ module.exports = describe("Roller", function(){
       var id = utils.generateId();
 
       return task.saveFile(TEST_FILE_PATH, {_id: id})
-        .remove(TestMdlA, {_id: "fail"})
+        .save(TestMdlA, {_id: ["fail"]}, {name: "fail"})
         .run()
         .then(failure)
         .catch(function () {
@@ -97,7 +97,7 @@ module.exports = describe("Roller", function(){
 
       writeStream.on("close", function () {
         task.removeFile({_id: id})
-          .remove(TestMdlA, {_id: "fail"})
+          .save(TestMdlA, {_id: ["fail"]}, {name: "fail"})
           .run()
           .then(failure)
           .catch(function () {
@@ -116,5 +116,6 @@ module.exports = describe("Roller", function(){
 });
 
 function failure(){
+  // TestMdlA.find().exec(console.log);
   throw new Error("failed");
 }

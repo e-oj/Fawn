@@ -34,7 +34,10 @@ module.exports = describe("Roller", function(){
       return task.save(TestMdlA, {name: "Tyrion Lannister", age: 34})
         .run()
         .then(function(result){
-          return task.update(TestMdlA, {name: "Tyrion Lannister"}, {name: "Jamie", $inc: {age: 1}})
+          // Tyrion's id
+          var id = result[0].ops[0]._id;
+
+          return task.update(TestMdlA, {_id: id}, {name: "Jamie", $inc: {age: 1}})
             .update(TestMdlA, {_id: "blah"}, {name: "fail"})
             .run()
             .then(failure)

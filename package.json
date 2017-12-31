@@ -1,6 +1,6 @@
 {
   "name": "fawn",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Promise based library for transactions in MongoDB",
   "main": "index.js",
   "scripts": {

@@ -79,7 +79,7 @@ module.exports = describe("Roller", function(){
 
     it("should rollback file save", function () {
       var gfs = Grid(mongoose.connection.db);
-      var id = utils.generateId();
+      var id = dbUtils.generateId();
 
       return task.saveFile(TEST_FILE_PATH, {_id: id})
         .save(TestMdlA, {_id: ["fail"]}, {name: "fail"})
@@ -92,7 +92,7 @@ module.exports = describe("Roller", function(){
 
     it("should rollback file remove", function (done) {
       var gfs = Grid(mongoose.connection.db);
-      var id = utils.generateId();
+      var id = dbUtils.generateId();
       var writeStream = gfs.createWriteStream({_id: id});
 
       writeStream.on("close", function () {

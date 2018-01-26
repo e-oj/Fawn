@@ -333,7 +333,7 @@ module.exports = describe("Task", function(){
   describe("Results Array", function () {
     it("Should have the results of all operations", function () {
       var gabe = new TestMdlB({name: "Gabe", age: 34});
-      var id = utils.generateId();
+      var id = dbUtils.generateId();
 
       return expect(
         task.save(gabe)

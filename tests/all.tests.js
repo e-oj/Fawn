@@ -28,7 +28,7 @@ global.TEST_COLLECTION_C = config.TEST_COLLECTION_C;
 global.TEST_FILE_PATH = config.TEST_FILE_PATH;
 global.TEST_FILE_TEXT = config.TEST_FILE_TEXT;
 global.TEST_FILE_NAME = "FAWN_TEST.oj";
-global.TEST_FILE_ID = utils.generateId();
+global.TEST_FILE_ID = global.dbUtils.generateId();
 
 describe("ALL TESTS", function(){
   before(function(){

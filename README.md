@@ -228,7 +228,7 @@ var task = Fawn.Task();
   task.save(toyota);
   ```
   
-  *Note: No changes will be made to to your database until you call task.run()*
+  *Note: No changes will be made to your database until you call task.run()*
   
 <br> 
 

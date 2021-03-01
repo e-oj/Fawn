@@ -1,4 +1,8 @@
 ## [![Travis](https://img.shields.io/travis/e-oj/Fawn.svg?style=flat-square)](https://travis-ci.org/e-oj/Fawn) [![npm](https://img.shields.io/npm/l/fawn.svg?style=flat-square)](https://www.npmjs.com/package/fawn) [![npm](https://img.shields.io/npm/v/fawn.svg?style=flat-square)](https://www.npmjs.com/package/fawn) [![npm](https://img.shields.io/npm/dt/fawn.svg?style=flat-square)](https://www.npmjs.com/package/fawn)
+
+### Quick Note:
+> I no longer have the time to actively maintain this project. Transactions have been added to MongoDB but I've been informed that some users, for varying reasons, are stuck with an older version of the database and still depend on this library. I'll need volunteers to tackle the open issues. If you're interested, please open an issue indicating your interest and I'll be happy to add you to the project. Thanks in advance.
+
 # Fawn
 ## Promise based Library for transactions in MongoDB
 
@@ -224,7 +228,7 @@ var task = Fawn.Task();
   task.save(toyota);
   ```
   
-  *Note: No changes will be made to to your database until you call task.run()*
+  *Note: No changes will be made to your database until you call task.run()*
   
 <br> 
 

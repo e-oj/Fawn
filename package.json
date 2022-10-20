@@ -32,7 +32,7 @@
   "dependencies": {
     "bluebird": "3.5.0",
     "gridfs-stream": "1.1.1",
-    "mongoose": "4.12.3"
+    "mongoose": "4.13.21"
   },
   "devDependencies": {
     "chai": "4.1.0",
